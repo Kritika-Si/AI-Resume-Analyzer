@@ -1,4 +1,5 @@
 import "./App.css";
+import UploadBox from "./components/UploadBox";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
           <button>Get Started</button>
         </div>
       </section>
+
+      <UploadBox />
     </>
   );
 }

@@ -5,16 +5,22 @@ import UploadBox from "./components/UploadBox";
 function App() {
   const [backendStatus, setBackendStatus] = useState("Checking backend...");
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/health")
-      .then((response) => response.json())
-      .then((data) => {
-        setBackendStatus(data.message);
-      })
-      .catch(() => {
-        setBackendStatus("Backend connection failed");
-      });
-  }, []);
+useEffect(() => {
+  fetch("http://127.0.0.1:5000/api/health")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Backend request failed");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      setBackendStatus(data.message);
+    })
+    .catch(() => {
+      setBackendStatus("Backend connection failed. Please try again.");
+    });
+}, []);
 
   return (
     <>

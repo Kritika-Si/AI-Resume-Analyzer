@@ -4,6 +4,7 @@ function UploadBox() {
   const [resume, setResume] = useState(null);
   const [jobDescription, setJobDescription] = useState("");
   const [message, setMessage] = useState("");
+  const [extractedText, setExtractedText] = useState("");
   const [isUploading, setIsUploading] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -20,10 +21,11 @@ function UploadBox() {
 
     setIsUploading(true);
     setMessage("");
+    setExtractedText("");
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/upload-resume",
+        "http://127.0.0.1:5000/api/extract-resume",
         {
           method: "POST",
           body: formData,
@@ -33,10 +35,11 @@ function UploadBox() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Resume upload failed.");
+        throw new Error(data.message || "Resume extraction failed.");
       }
 
       setMessage(data.message);
+      setExtractedText(data.text);
     } catch (error) {
       setMessage(error.message);
     } finally {
@@ -66,11 +69,18 @@ function UploadBox() {
           ></textarea>
 
           <button type="submit" disabled={isUploading}>
-            {isUploading ? "Uploading..." : "Analyze Resume"}
+            {isUploading ? "Analyzing..." : "Analyze Resume"}
           </button>
         </form>
 
         {message && <p>{message}</p>}
+
+        {extractedText && (
+          <div className="extracted-text">
+            <h3>Extracted Resume Text</h3>
+            <pre>{extractedText}</pre>
+          </div>
+        )}
       </div>
     </section>
   );

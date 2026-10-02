@@ -3,6 +3,9 @@ from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
 
+from resume_parser import extract_text_from_pdf, extract_text_from_docx
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -67,6 +70,61 @@ def upload_resume():
         "status": "success",
         "message": "Resume uploaded successfully",
         "filename": filename
+    })
+
+
+@app.route("/api/extract-resume", methods=["POST"])
+def extract_resume():
+    if "resume" not in request.files:
+        return jsonify({
+            "status": "error",
+            "message": "No resume file provided"
+        }), 400
+
+    file = request.files["resume"]
+
+    if file.filename == "":
+        return jsonify({
+            "status": "error",
+            "message": "No file selected"
+        }), 400
+
+    if not allowed_file(file.filename):
+        return jsonify({
+            "status": "error",
+            "message": "Only PDF, DOC, and DOCX files are allowed"
+        }), 400
+
+    filename = secure_filename(file.filename)
+    file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+    file.save(file_path)
+
+    file_extension = filename.rsplit(".", 1)[1].lower()
+
+    if file_extension == "pdf":
+        extracted_text = extract_text_from_pdf(file_path)
+
+    elif file_extension == "docx":
+        extracted_text = extract_text_from_docx(file_path)
+
+    else:
+        return jsonify({
+            "status": "error",
+            "message": "DOC files are not supported for text extraction yet"
+        }), 400
+
+    if not extracted_text:
+        return jsonify({
+            "status": "error",
+            "message": "No text could be extracted from the resume"
+        }), 400
+
+    return jsonify({
+        "status": "success",
+        "message": "Resume text extracted successfully",
+        "filename": filename,
+        "text": extracted_text
     })
 
 

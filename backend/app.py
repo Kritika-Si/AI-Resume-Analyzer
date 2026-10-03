@@ -4,6 +4,7 @@ import os
 from werkzeug.utils import secure_filename
 
 from resume_parser import extract_text_from_pdf, extract_text_from_docx
+from text_cleaner import clean_resume_text
 
 
 app = Flask(__name__)
@@ -113,6 +114,8 @@ def extract_resume():
             "status": "error",
             "message": "DOC files are not supported for text extraction yet"
         }), 400
+    
+    extracted_text = clean_resume_text(extracted_text)
 
     if not extracted_text:
         return jsonify({

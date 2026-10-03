@@ -124,11 +124,12 @@ def extract_resume():
         }), 400
 
     return jsonify({
-        "status": "success",
-        "message": "Resume text extracted successfully",
-        "filename": filename,
-        "text": extracted_text
-    })
+    "status": "success",
+    "message": "Resume text extracted and cleaned successfully",
+    "filename": filename,
+    "text": extracted_text,
+    "preprocessed": True
+}), 200
 
 
 if __name__ == "__main__":

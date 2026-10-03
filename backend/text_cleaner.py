@@ -3,7 +3,7 @@ import re
 
 def clean_resume_text(text):
     """
-    Clean extracted resume text before NLP processing.
+    Clean and normalize extracted resume text.
 
     Args:
         text (str): Raw extracted resume text.
@@ -15,16 +15,22 @@ def clean_resume_text(text):
     if not text:
         return ""
 
+    # Normalize different types of line breaks
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+
+    # Remove unwanted non-printable characters
+    text = re.sub(r"[^\x20-\x7E\t\n]", "", text)
+
     # Replace multiple spaces and tabs with a single space
     text = re.sub(r"[ \t]+", " ", text)
 
-    # Replace multiple line breaks with a single line break
-    text = re.sub(r"\n+", "\n", text)
+    # Remove spaces around line breaks
+    text = re.sub(r"[ \t]*\n[ \t]*", "\n", text)
 
-    # Remove unwanted non-printable characters
-    text = re.sub(r"[^\x20-\x7E\n]", "", text)
+    # Remove excessive blank lines
+    text = re.sub(r"\n{2,}", "\n", text)
 
-    # Remove spaces at the beginning and end of each line
+    # Clean each individual line
     lines = [line.strip() for line in text.split("\n")]
 
     # Remove empty lines

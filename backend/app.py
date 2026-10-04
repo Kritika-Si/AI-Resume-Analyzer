@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 
 from resume_parser import extract_text_from_pdf, extract_text_from_docx
 from text_cleaner import clean_resume_text
+from skill_extractor import extract_skills
 
 
 app = Flask(__name__)
@@ -116,6 +117,7 @@ def extract_resume():
         }), 400
     
     extracted_text = clean_resume_text(extracted_text)
+    detected_skills = extract_skills(extracted_text)
 
     if not extracted_text:
         return jsonify({
@@ -128,7 +130,8 @@ def extract_resume():
     "message": "Resume text extracted and cleaned successfully",
     "filename": filename,
     "text": extracted_text,
-    "preprocessed": True
+    "preprocessed": True,
+    "skills": detected_skills
 }), 200
 
 

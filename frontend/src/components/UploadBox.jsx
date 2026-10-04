@@ -6,6 +6,7 @@ function UploadBox() {
   const [message, setMessage] = useState("");
   const [extractedText, setExtractedText] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const [skills, setSkills] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,6 +41,7 @@ function UploadBox() {
 
       setMessage(data.message);
       setExtractedText(data.text);
+      setSkills(data.skills || []);
     } catch (error) {
       setMessage(error.message);
     } finally {
@@ -81,6 +83,19 @@ function UploadBox() {
             <pre>{extractedText}</pre>
           </div>
         )}
+        {skills.length > 0 && (
+  <div className="skills-section">
+    <h3>Detected Skills</h3>
+
+    <div className="skills-list">
+      {skills.map((skill) => (
+        <span className="skill-tag" key={skill}>
+          {skill}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
       </div>
     </section>
   );

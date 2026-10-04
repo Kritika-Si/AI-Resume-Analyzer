@@ -31,13 +31,13 @@ def extract_skills(text):
 
     skill_keywords = load_skill_keywords()
 
-    detected_skills = []
+    detected_skills = set()
 
     for skills in skill_keywords.values():
         for skill in skills:
             pattern = r"(?<!\w)" + re.escape(skill) + r"(?!\w)"
 
             if re.search(pattern, text, re.IGNORECASE):
-                detected_skills.append(skill)
+                detected_skills.add(skill)
 
-    return detected_skills
+    return sorted(detected_skills)

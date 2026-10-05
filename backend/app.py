@@ -50,6 +50,13 @@ def upload_resume():
         }), 400
 
     file = request.files["resume"]
+    job_description = request.form.get("job_description", "").strip()
+
+    if not job_description:
+        return jsonify({
+            "status": "error",
+            "message": "Job description is required"
+    }), 400
 
     if file.filename == "":
         return jsonify({
@@ -84,6 +91,13 @@ def extract_resume():
         }), 400
 
     file = request.files["resume"]
+    job_description = request.form.get("job_description", "").strip()
+
+    if not job_description:
+        return jsonify({
+            "status": "error",
+            "message": "Job description is required"
+    }), 400
 
     if file.filename == "":
         return jsonify({
@@ -131,7 +145,8 @@ def extract_resume():
     "filename": filename,
     "text": extracted_text,
     "preprocessed": True,
-    "skills": detected_skills
+    "skills": detected_skills,
+    "job_description": job_description
 }), 200
 
 

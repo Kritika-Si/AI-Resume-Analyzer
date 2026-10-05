@@ -7,6 +7,7 @@ function UploadBox() {
   const [extractedText, setExtractedText] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [skills, setSkills] = useState([]);
+  const [requiredSkills, setRequiredSkills] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,6 +43,7 @@ function UploadBox() {
       setMessage(data.message);
       setExtractedText(data.text);
       setSkills(data.skills || []);
+      setRequiredSkills(data.required_skills || []);
     } catch (error) {
       setMessage(error.message);
     } finally {
@@ -89,6 +91,19 @@ function UploadBox() {
 
     <div className="skills-list">
       {skills.map((skill) => (
+        <span className="skill-tag" key={skill}>
+          {skill}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
+{requiredSkills.length > 0 && (
+  <div className="skills-section">
+    <h3>Required Skills</h3>
+
+    <div className="skills-list">
+      {requiredSkills.map((skill) => (
         <span className="skill-tag" key={skill}>
           {skill}
         </span>

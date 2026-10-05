@@ -96,6 +96,7 @@ def extract_resume():
 
     job_description = request.form.get("job_description", "").strip()
     job_description = clean_job_description(job_description)
+    required_skills = extract_skills(job_description)
 
     if not job_description:
         return jsonify({
@@ -150,8 +151,9 @@ def extract_resume():
         "text": extracted_text,
         "preprocessed": True,
         "skills": detected_skills,
-        "job_description": job_description
-    }), 200
+        "job_description": job_description,
+        "required_skills": required_skills
+}), 200
 
 
 if __name__ == "__main__":

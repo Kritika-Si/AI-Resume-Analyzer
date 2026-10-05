@@ -4,7 +4,7 @@ import os
 from werkzeug.utils import secure_filename
 
 from resume_parser import extract_text_from_pdf, extract_text_from_docx
-from text_cleaner import clean_resume_text
+from text_cleaner import clean_resume_text, clean_job_description
 from skill_extractor import extract_skills
 
 
@@ -50,13 +50,15 @@ def upload_resume():
         }), 400
 
     file = request.files["resume"]
+
     job_description = request.form.get("job_description", "").strip()
+    job_description = clean_job_description(job_description)
 
     if not job_description:
         return jsonify({
             "status": "error",
             "message": "Job description is required"
-    }), 400
+        }), 400
 
     if file.filename == "":
         return jsonify({
@@ -91,13 +93,15 @@ def extract_resume():
         }), 400
 
     file = request.files["resume"]
+
     job_description = request.form.get("job_description", "").strip()
+    job_description = clean_job_description(job_description)
 
     if not job_description:
         return jsonify({
             "status": "error",
             "message": "Job description is required"
-    }), 400
+        }), 400
 
     if file.filename == "":
         return jsonify({
@@ -129,7 +133,7 @@ def extract_resume():
             "status": "error",
             "message": "DOC files are not supported for text extraction yet"
         }), 400
-    
+
     extracted_text = clean_resume_text(extracted_text)
     detected_skills = extract_skills(extracted_text)
 
@@ -140,14 +144,14 @@ def extract_resume():
         }), 400
 
     return jsonify({
-    "status": "success",
-    "message": "Resume text extracted and cleaned successfully",
-    "filename": filename,
-    "text": extracted_text,
-    "preprocessed": True,
-    "skills": detected_skills,
-    "job_description": job_description
-}), 200
+        "status": "success",
+        "message": "Resume text extracted and cleaned successfully",
+        "filename": filename,
+        "text": extracted_text,
+        "preprocessed": True,
+        "skills": detected_skills,
+        "job_description": job_description
+    }), 200
 
 
 if __name__ == "__main__":

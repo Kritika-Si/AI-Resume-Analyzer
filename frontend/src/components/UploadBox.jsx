@@ -8,6 +8,9 @@ function UploadBox() {
   const [isUploading, setIsUploading] = useState(false);
   const [skills, setSkills] = useState([]);
   const [requiredSkills, setRequiredSkills] = useState([]);
+  const [matchingSkills, setMatchingSkills] = useState([]);
+  const [missingSkills, setMissingSkills] = useState([]);
+  const [matchScore, setMatchScore] = useState(0);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,6 +47,9 @@ function UploadBox() {
       setExtractedText(data.text);
       setSkills(data.skills || []);
       setRequiredSkills(data.required_skills || []);
+      setMatchingSkills(data.matching_skills || []);
+      setMissingSkills(data.missing_skills || []);
+      setMatchScore(data.match_score ?? data.match_percentage ?? 0);
     } catch (error) {
       setMessage(error.message);
     } finally {
@@ -104,6 +110,38 @@ function UploadBox() {
 
     <div className="skills-list">
       {requiredSkills.map((skill) => (
+        <span className="skill-tag" key={skill}>
+          {skill}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
+{matchScore > 0 && (
+  <div className="match-score">
+    <h3>Resume Match Score</h3>
+    <p>{matchScore}%</p>
+  </div>
+)}
+{matchingSkills.length > 0 && (
+  <div className="skills-section">
+    <h3>Matching Skills</h3>
+
+    <div className="skills-list">
+      {matchingSkills.map((skill) => (
+        <span className="skill-tag" key={skill}>
+          {skill}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
+{missingSkills.length > 0 && (
+  <div className="skills-section">
+    <h3>Missing Skills</h3>
+
+    <div className="skills-list">
+      {missingSkills.map((skill) => (
         <span className="skill-tag" key={skill}>
           {skill}
         </span>

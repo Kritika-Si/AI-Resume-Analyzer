@@ -36,7 +36,8 @@ def calculate_skill_match(resume_skills, required_skills):
     )
 
     return {
-        "matching_skills": matching_skills,
-        "missing_skills": missing_skills,
-        "match_percentage": match_percentage
-    }
+    "matching_skills": matching_skills,
+    "missing_skills": missing_skills,
+    "match_percentage": match_percentage,
+    "match_score": match_percentage
+}

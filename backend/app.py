@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from resume_parser import extract_text_from_pdf, extract_text_from_docx
 from text_cleaner import clean_resume_text, clean_job_description
 from skill_extractor import extract_skills
+from matcher import calculate_skill_match
 
 
 app = Flask(__name__)
@@ -137,6 +138,10 @@ def extract_resume():
 
     extracted_text = clean_resume_text(extracted_text)
     detected_skills = extract_skills(extracted_text)
+    match_result = calculate_skill_match(
+    detected_skills,
+    required_skills
+)
 
     if not extracted_text:
         return jsonify({
@@ -151,8 +156,11 @@ def extract_resume():
         "text": extracted_text,
         "preprocessed": True,
         "skills": detected_skills,
-        "job_description": job_description,
-        "required_skills": required_skills
+"job_description": job_description,
+"required_skills": required_skills,
+"matching_skills": match_result["matching_skills"],
+"missing_skills": match_result["missing_skills"],
+"match_percentage": match_result["match_percentage"]
 }), 200
 
 

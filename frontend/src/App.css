@@ -198,3 +198,16 @@ body{
   font-weight: 600;
   color: #374151;
 }
+@media(max-width:768px){
+  .match-score {
+    padding: 16px;
+  }
+
+  .match-score p {
+    font-size: 28px;
+  }
+
+  .match-status {
+    font-size: 14px;
+  }
+}

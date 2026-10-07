@@ -121,6 +121,14 @@ function UploadBox() {
   <div className="match-score">
     <h3>Resume Match Score</h3>
     <p>{matchScore}%</p>
+
+    <span className="match-status">
+      {matchScore >= 80
+        ? "Strong Match"
+        : matchScore >= 50
+        ? "Moderate Match"
+        : "Needs Improvement"}
+    </span>
   </div>
 )}
 {matchingSkills.length > 0 && (

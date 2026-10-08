@@ -247,3 +247,23 @@ body{
   color: #991b1b;
   border-color: #fca5a5;
 }
+.analysis-results {
+  margin-top: 25px;
+}
+
+@media (max-width: 768px) {
+  .analysis-results {
+    margin-top: 20px;
+  }
+
+  .analysis-results .skills-section,
+  .matching-skills,
+  .missing-skills {
+    padding: 14px;
+  }
+
+  .analysis-results .skill-tag {
+    font-size: 13px;
+    padding: 7px 11px;
+  }
+}

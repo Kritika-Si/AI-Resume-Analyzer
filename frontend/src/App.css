@@ -229,3 +229,21 @@ body{
   color: #166534;
   border-color: #86efac;
 }
+.missing-skills {
+  margin-top: 20px;
+  padding: 18px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+}
+
+.missing-skills h3 {
+  margin-bottom: 12px;
+  color: #991b1b;
+}
+
+.missing-skills .skill-tag {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #fca5a5;
+}

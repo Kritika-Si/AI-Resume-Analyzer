@@ -151,7 +151,7 @@ function UploadBox() {
           )}
 
           {missingSkills.length > 0 && (
-            <div className="skills-section">
+            <div className="skills-section missing-skills">
               <h3>Missing Skills</h3>
 
               <div className="skills-list">

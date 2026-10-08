@@ -85,78 +85,85 @@ function UploadBox() {
 
         {message && <p>{message}</p>}
 
-        {extractedText && (
-          <div className="extracted-text">
-            <h3>Extracted Resume Text</h3>
-            <pre>{extractedText}</pre>
-          </div>
-        )}
-        {skills.length > 0 && (
-  <div className="skills-section">
-    <h3>Detected Skills</h3>
+        <div className="analysis-results">
+          {extractedText && (
+            <div className="extracted-text">
+              <h3>Extracted Resume Text</h3>
+              <pre>{extractedText}</pre>
+            </div>
+          )}
 
-    <div className="skills-list">
-      {skills.map((skill) => (
-        <span className="skill-tag" key={skill}>
-          {skill}
-        </span>
-      ))}
-    </div>
-  </div>
-)}
-{requiredSkills.length > 0 && (
-  <div className="skills-section">
-    <h3>Required Skills</h3>
+          {skills.length > 0 && (
+            <div className="skills-section">
+              <h3>Detected Skills</h3>
 
-    <div className="skills-list">
-      {requiredSkills.map((skill) => (
-        <span className="skill-tag" key={skill}>
-          {skill}
-        </span>
-      ))}
-    </div>
-  </div>
-)}
-{matchScore > 0 && (
-  <div className="match-score">
-    <h3>Resume Match Score</h3>
-    <p>{matchScore}%</p>
+              <div className="skills-list">
+                {skills.map((skill) => (
+                  <span className="skill-tag" key={skill}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
-    <span className="match-status">
-      {matchScore >= 80
-        ? "Strong Match"
-        : matchScore >= 50
-        ? "Moderate Match"
-        : "Needs Improvement"}
-    </span>
-  </div>
-)}
-{matchingSkills.length > 0 && (
-  <div className="skills-section">
-    <h3>Matching Skills</h3>
+          {requiredSkills.length > 0 && (
+            <div className="skills-section">
+              <h3>Required Skills</h3>
 
-    <div className="skills-list">
-      {matchingSkills.map((skill) => (
-        <span className="skill-tag" key={skill}>
-          {skill}
-        </span>
-      ))}
-    </div>
-  </div>
-)}
-{missingSkills.length > 0 && (
-  <div className="skills-section">
-    <h3>Missing Skills</h3>
+              <div className="skills-list">
+                {requiredSkills.map((skill) => (
+                  <span className="skill-tag" key={skill}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
-    <div className="skills-list">
-      {missingSkills.map((skill) => (
-        <span className="skill-tag" key={skill}>
-          {skill}
-        </span>
-      ))}
-    </div>
-  </div>
-)}
+          {matchScore > 0 && (
+            <div className="match-score">
+              <h3>Resume Match Score</h3>
+              <p>{matchScore}%</p>
+
+              <span className="match-status">
+                {matchScore >= 80
+                  ? "Strong Match"
+                  : matchScore >= 50
+                  ? "Moderate Match"
+                  : "Needs Improvement"}
+              </span>
+            </div>
+          )}
+
+          {matchingSkills.length > 0 && (
+            <div className="skills-section">
+              <h3>Matching Skills</h3>
+
+              <div className="skills-list">
+                {matchingSkills.map((skill) => (
+                  <span className="skill-tag" key={skill}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {missingSkills.length > 0 && (
+            <div className="skills-section">
+              <h3>Missing Skills</h3>
+
+              <div className="skills-list">
+                {missingSkills.map((skill) => (
+                  <span className="skill-tag" key={skill}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

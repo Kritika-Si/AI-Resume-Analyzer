@@ -128,6 +128,10 @@ function UploadBox() {
             disabled={isUploading}
           />
 
+          <p className="character-count" aria-live="polite">
+            {jobDescription.length} characters entered
+          </p>
+
           <button type="submit" disabled={isUploading}>
             {isUploading ? "Analyzing..." : "Analyze Resume"}
           </button>
@@ -215,4 +219,3 @@ function UploadBox() {
 }
 
 export default UploadBox;
-

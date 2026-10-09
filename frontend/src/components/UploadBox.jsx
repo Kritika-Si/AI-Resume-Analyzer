@@ -27,6 +27,11 @@ function UploadBox() {
     setIsUploading(true);
     setMessage("");
     setExtractedText("");
+    setSkills([]);
+    setRequiredSkills([]);
+    setMatchingSkills([]);
+    setMissingSkills([]);
+    setMatchScore(0);
 
     try {
       const response = await fetch(

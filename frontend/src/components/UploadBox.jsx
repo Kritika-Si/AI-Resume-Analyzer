@@ -11,22 +11,26 @@ function UploadBox() {
   const [matchingSkills, setMatchingSkills] = useState([]);
   const [missingSkills, setMissingSkills] = useState([]);
   const [matchScore, setMatchScore] = useState(0);
+  const [hasResults, setHasResults] = useState(false);
 
-  const handleResumeChange = (event) => {
-    const selectedFile = event.target.files?.[0];
-
-    setResume(null);
-    setMessage("");
+  const clearResults = () => {
     setExtractedText("");
     setSkills([]);
     setRequiredSkills([]);
     setMatchingSkills([]);
     setMissingSkills([]);
     setMatchScore(0);
+    setHasResults(false);
+  };
 
-    if (!selectedFile) {
-      return;
-    }
+  const handleResumeChange = (event) => {
+    const selectedFile = event.target.files?.[0];
+
+    setResume(null);
+    setMessage("");
+    clearResults();
+
+    if (!selectedFile) return;
 
     const allowedExtensions = ["pdf", "doc", "docx"];
     const extension = selectedFile.name.split(".").pop()?.toLowerCase();
@@ -45,6 +49,12 @@ function UploadBox() {
 
     setResume(selectedFile);
     setMessage(`Selected file: ${selectedFile.name}`);
+  };
+
+  const handleJobDescriptionChange = (event) => {
+    setJobDescription(event.target.value);
+    setMessage("");
+    clearResults();
   };
 
   const handleSubmit = async (event) => {
@@ -66,12 +76,7 @@ function UploadBox() {
 
     setIsUploading(true);
     setMessage("");
-    setExtractedText("");
-    setSkills([]);
-    setRequiredSkills([]);
-    setMatchingSkills([]);
-    setMissingSkills([]);
-    setMatchScore(0);
+    clearResults();
 
     try {
       const response = await fetch(
@@ -95,6 +100,7 @@ function UploadBox() {
       setMatchingSkills(data.matching_skills || []);
       setMissingSkills(data.missing_skills || []);
       setMatchScore(data.match_score ?? data.match_percentage ?? 0);
+      setHasResults(true);
     } catch (error) {
       setMessage(
         error instanceof TypeError
@@ -124,7 +130,7 @@ function UploadBox() {
             rows="8"
             placeholder="Paste the Job Description here..."
             value={jobDescription}
-            onChange={(event) => setJobDescription(event.target.value)}
+            onChange={handleJobDescriptionChange}
             disabled={isUploading}
           />
 
@@ -139,41 +145,37 @@ function UploadBox() {
 
         {message && <p role="status">{message}</p>}
 
-        <div className="analysis-results">
-          {extractedText && (
-            <div className="extracted-text">
-              <h3>Extracted Resume Text</h3>
-              <pre>{extractedText}</pre>
-            </div>
-          )}
-
-          {skills.length > 0 && (
-            <div className="skills-section">
-              <h3>Detected Skills</h3>
-              <div className="skills-list">
-                {skills.map((skill) => (
-                  <span className="skill-tag" key={skill}>
-                    {skill}
-                  </span>
-                ))}
+        {hasResults && (
+          <div className="analysis-results">
+            {extractedText && (
+              <div className="extracted-text">
+                <h3>Extracted Resume Text</h3>
+                <pre>{extractedText}</pre>
               </div>
-            </div>
-          )}
+            )}
 
-          {requiredSkills.length > 0 && (
-            <div className="skills-section">
-              <h3>Required Skills</h3>
-              <div className="skills-list">
-                {requiredSkills.map((skill) => (
-                  <span className="skill-tag" key={skill}>
-                    {skill}
-                  </span>
-                ))}
+            {skills.length > 0 && (
+              <div className="skills-section">
+                <h3>Detected Skills</h3>
+                <div className="skills-list">
+                  {skills.map((skill) => (
+                    <span className="skill-tag" key={skill}>{skill}</span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {matchScore > 0 && (
+            {requiredSkills.length > 0 && (
+              <div className="skills-section">
+                <h3>Required Skills</h3>
+                <div className="skills-list">
+                  {requiredSkills.map((skill) => (
+                    <span className="skill-tag" key={skill}>{skill}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="match-score">
               <h3>Resume Match Score</h3>
               <p>{matchScore}%</p>
@@ -185,34 +187,30 @@ function UploadBox() {
                   : "Needs Improvement"}
               </span>
             </div>
-          )}
 
-          {matchingSkills.length > 0 && (
-            <div className="skills-section matching-skills">
-              <h3>Matching Skills</h3>
-              <div className="skills-list">
-                {matchingSkills.map((skill) => (
-                  <span className="skill-tag" key={skill}>
-                    {skill}
-                  </span>
-                ))}
+            {matchingSkills.length > 0 && (
+              <div className="skills-section matching-skills">
+                <h3>Matching Skills</h3>
+                <div className="skills-list">
+                  {matchingSkills.map((skill) => (
+                    <span className="skill-tag" key={skill}>{skill}</span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {missingSkills.length > 0 && (
-            <div className="skills-section missing-skills">
-              <h3>Missing Skills</h3>
-              <div className="skills-list">
-                {missingSkills.map((skill) => (
-                  <span className="skill-tag" key={skill}>
-                    {skill}
-                  </span>
-                ))}
+            {missingSkills.length > 0 && (
+              <div className="skills-section missing-skills">
+                <h3>Missing Skills</h3>
+                <div className="skills-list">
+                  {missingSkills.map((skill) => (
+                    <span className="skill-tag" key={skill}>{skill}</span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

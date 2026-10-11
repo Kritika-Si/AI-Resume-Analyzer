@@ -14,7 +14,9 @@
     "React.js",
     "Node.js",
     "Express.js",
-    "Flask"
+    "Flask",
+    "REST API",
+    "REST APIs"
   ],
   "databases": [
     "SQL",
@@ -31,17 +33,39 @@
     "Machine Learning",
     "Deep Learning",
     "Data Analysis",
-    "Data Science"
+    "Data Science",
+    "TensorFlow",
+    "PyTorch",
+    "NLP",
+    "Natural Language Processing",
+    "Keras",
+    "Computer Vision",
+    "Statistics",
+    "Data Visualization",
+    "Exploratory Data Analysis"
+  ],
+  "big_data": [
+    "Apache Spark",
+    "Spark",
+    "Hadoop",
+    "Kafka",
+    "Big Data"
   ],
   "tools": [
     "Git",
     "GitHub",
     "VS Code",
-    "Docker"
+    "Docker",
+    "Kubernetes",
+    "Tableau",
+    "Power BI",
+    "Jupyter",
+    "Excel"
   ],
   "cloud": [
     "AWS",
     "Azure",
-    "Google Cloud"
+    "Google Cloud",
+    "GCP"
   ]
 }

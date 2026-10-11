@@ -12,6 +12,7 @@
     "CSS",
     "React",
     "React.js",
+    "ReactJS",
     "Node.js",
     "Express.js",
     "Flask",
@@ -30,6 +31,7 @@
     "NumPy",
     "Matplotlib",
     "Scikit-learn",
+    "Scikit Learn",
     "Machine Learning",
     "Deep Learning",
     "Data Analysis",
@@ -64,6 +66,7 @@
   ],
   "cloud": [
     "AWS",
+    "Amazon Web Services",
     "Azure",
     "Google Cloud",
     "GCP"

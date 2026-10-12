@@ -18,6 +18,7 @@ UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 ALLOWED_EXTENSIONS = {"pdf", "doc", "docx"}
+SUPPORTED_EXTRACTION_EXTENSIONS = {"pdf", "docx"}
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
@@ -109,6 +110,16 @@ def extract_resume():
             "message": "Only PDF, DOC, and DOCX files are allowed"
         }), 400
 
+    filename = secure_filename(file.filename)
+    _, extension = os.path.splitext(filename)
+    file_extension = extension.lower().lstrip(".")
+
+    if file_extension not in SUPPORTED_EXTRACTION_EXTENSIONS:
+        return jsonify({
+            "status": "error",
+            "message": "DOC files are not supported for text extraction yet. Please upload a PDF or DOCX file."
+        }), 400
+
     job_description = request.form.get("job_description", "").strip()
     job_description = clean_job_description(job_description)
 
@@ -118,25 +129,26 @@ def extract_resume():
             "message": "Job description is required"
         }), 400
 
-    filename = secure_filename(file.filename)
     name, extension = os.path.splitext(filename)
     filename = f"{name}_{os.urandom(4).hex()}{extension}"
 
     file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     file.save(file_path)
 
-    file_extension = extension.lower().lstrip(".")
+    try:
+        if file_extension == "pdf":
+            extracted_text = extract_text_from_pdf(file_path)
+        else:
+            extracted_text = extract_text_from_docx(file_path)
 
-    if file_extension == "pdf":
-        extracted_text = extract_text_from_pdf(file_path)
-
-    elif file_extension == "docx":
-        extracted_text = extract_text_from_docx(file_path)
-
-    else:
+    except Exception:
+        app.logger.warning(
+            "Resume text extraction failed for uploaded file.",
+            exc_info=True
+        )
         return jsonify({
             "status": "error",
-            "message": "DOC files are not supported for text extraction yet"
+            "message": "Unable to read this file. Please upload a valid PDF or DOCX resume."
         }), 400
 
     extracted_text = clean_resume_text(extracted_text)
@@ -144,7 +156,7 @@ def extract_resume():
     if not extracted_text:
         return jsonify({
             "status": "error",
-            "message": "No text could be extracted from the resume"
+            "message": "No text could be extracted from the resume. If this is a scanned PDF, text extraction may require OCR."
         }), 400
 
     detected_skills = extract_skills(extracted_text)

@@ -14,6 +14,7 @@ CORS(app)
 
 # Upload configuration
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {"pdf", "doc", "docx"}
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER

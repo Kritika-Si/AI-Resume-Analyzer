@@ -146,6 +146,10 @@ def extract_resume():
             "Resume text extraction failed for uploaded file.",
             exc_info=True
         )
+
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
         return jsonify({
             "status": "error",
             "message": "Unable to read this file. Please upload a valid PDF or DOCX resume."
@@ -154,6 +158,9 @@ def extract_resume():
     extracted_text = clean_resume_text(extracted_text)
 
     if not extracted_text:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
         return jsonify({
             "status": "error",
             "message": "No text could be extracted from the resume. If this is a scanned PDF, text extraction may require OCR."

@@ -18,6 +18,12 @@ ALLOWED_EXTENSIONS = {"pdf", "doc", "docx"}
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+@app.errorhandler(413)
+def handle_file_too_large(error):
+    return jsonify({
+        "status": "error",
+        "message": "Resume file exceeds the 5 MB upload limit."
+    }), 413
 
 
 def allowed_file(filename):

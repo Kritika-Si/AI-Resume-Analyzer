@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
@@ -15,10 +16,13 @@ CORS(app)
 # Upload configuration
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 ALLOWED_EXTENSIONS = {"pdf", "doc", "docx"}
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+
+
 @app.errorhandler(413)
 def handle_file_too_large(error):
     return jsonify({
@@ -59,15 +63,6 @@ def upload_resume():
 
     file = request.files["resume"]
 
-    job_description = request.form.get("job_description", "").strip()
-    job_description = clean_job_description(job_description)
-
-    if not job_description:
-        return jsonify({
-            "status": "error",
-            "message": "Job description is required"
-        }), 400
-
     if file.filename == "":
         return jsonify({
             "status": "error",
@@ -89,7 +84,7 @@ def upload_resume():
         "status": "success",
         "message": "Resume uploaded successfully",
         "filename": filename
-    })
+    }), 200
 
 
 @app.route("/api/extract-resume", methods=["POST"])
@@ -101,16 +96,6 @@ def extract_resume():
         }), 400
 
     file = request.files["resume"]
-
-    job_description = request.form.get("job_description", "").strip()
-    job_description = clean_job_description(job_description)
-    required_skills = extract_skills(job_description)
-
-    if not job_description:
-        return jsonify({
-            "status": "error",
-            "message": "Job description is required"
-        }), 400
 
     if file.filename == "":
         return jsonify({
@@ -124,12 +109,23 @@ def extract_resume():
             "message": "Only PDF, DOC, and DOCX files are allowed"
         }), 400
 
-    filename = secure_filename(file.filename)
-    file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+    job_description = request.form.get("job_description", "").strip()
+    job_description = clean_job_description(job_description)
 
+    if not job_description:
+        return jsonify({
+            "status": "error",
+            "message": "Job description is required"
+        }), 400
+
+    filename = secure_filename(file.filename)
+    name, extension = os.path.splitext(filename)
+    filename = f"{name}_{os.urandom(4).hex()}{extension}"
+
+    file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     file.save(file_path)
 
-    file_extension = filename.rsplit(".", 1)[1].lower()
+    file_extension = extension.lower().lstrip(".")
 
     if file_extension == "pdf":
         extracted_text = extract_text_from_pdf(file_path)
@@ -144,17 +140,20 @@ def extract_resume():
         }), 400
 
     extracted_text = clean_resume_text(extracted_text)
-    detected_skills = extract_skills(extracted_text)
-    match_result = calculate_skill_match(
-    detected_skills,
-    required_skills
-)
 
     if not extracted_text:
         return jsonify({
             "status": "error",
             "message": "No text could be extracted from the resume"
         }), 400
+
+    detected_skills = extract_skills(extracted_text)
+    required_skills = extract_skills(job_description)
+
+    match_result = calculate_skill_match(
+        detected_skills,
+        required_skills
+    )
 
     return jsonify({
         "status": "success",
@@ -163,12 +162,13 @@ def extract_resume():
         "text": extracted_text,
         "preprocessed": True,
         "skills": detected_skills,
-"job_description": job_description,
-"required_skills": required_skills,
-"matching_skills": match_result["matching_skills"],
-"missing_skills": match_result["missing_skills"],
-"match_percentage": match_result["match_percentage"]
-}), 200
+        "job_description": job_description,
+        "required_skills": required_skills,
+        "matching_skills": match_result["matching_skills"],
+        "missing_skills": match_result["missing_skills"],
+        "match_percentage": match_result["match_percentage"],
+        "match_score": match_result["match_score"]
+    }), 200
 
 
 if __name__ == "__main__":

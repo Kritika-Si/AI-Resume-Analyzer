@@ -34,10 +34,10 @@ function UploadBox() {
 
     if (!selectedFile) return;
 
-    const allowedExtensions = /\.(pdf|doc|docx)$/i;
+    const allowedExtensions = /\.(pdf|docx)$/i;
 
     if (!allowedExtensions.test(selectedFile.name)) {
-      setMessage("Please select a PDF, DOC, or DOCX file.");
+      setMessage("Please select a PDF or DOCX file.");
       event.target.value = "";
       return;
     }
@@ -123,10 +123,11 @@ function UploadBox() {
           <input
             id="resume"
             type="file"
-            accept=".pdf,.doc,.docx"
+            accept=".pdf,.docx"
             onChange={handleResumeChange}
+            disabled={isUploading}
           />
-          <p>Supported formats: PDF, DOC, DOCX. Maximum size: 5 MB.</p>
+          <p>Supported formats: PDF and DOCX. Maximum size: 5 MB.</p>
         </div>
 
         <div className="form-group">
@@ -137,106 +138,86 @@ function UploadBox() {
             onChange={handleJobDescriptionChange}
             placeholder="Paste the job description here..."
             rows={6}
+            disabled={isUploading}
           />
-          <p>{jobDescription.length} characters entered</p>
         </div>
 
         <button type="submit" disabled={isUploading}>
           {isUploading ? "Analyzing..." : "Analyze Resume"}
         </button>
-      </form>
 
-      {message && <p role="status">{message}</p>}
+        {message && (
+          <p role="status" aria-live="polite">
+            {message}
+          </p>
+        )}
+      </form>
 
       {hasResults && (
         <div className="analysis-results">
-          {extractedText && (
-            <div className="extracted-text">
-              <h3>Extracted Resume Text</h3>
-              <p>{extractedText}</p>
-            </div>
-          )}
-
-          <div className="skills-section">
-            <h3>Detected Skills</h3>
-            {skills.length > 0 ? (
-              <div className="skills-list">
-                {skills.map((skill) => (
-                  <span className="skill-tag" key={skill}>
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <p className="empty-state">
-                No skills were detected in your resume.
-              </p>
-            )}
-          </div>
-
-          <div className="skills-section">
-            <h3>Required Job Skills</h3>
-            {requiredSkills.length > 0 ? (
-              <div className="skills-list">
-                {requiredSkills.map((skill) => (
-                  <span className="skill-tag" key={skill}>
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <p className="empty-state">
-                No required skills were identified in the job description.
-              </p>
-            )}
-          </div>
+          <h3>Resume Analysis Results</h3>
 
           <div className="match-score">
-            <h3>Resume Match Score</h3>
+            <h4>Job Match Score</h4>
             <p>{matchScore}%</p>
-            <span className="match-status">
-              {matchScore >= 80
-                ? "Strong Match"
-                : matchScore >= 50
-                  ? "Moderate Match"
-                  : "Needs Improvement"}
-            </span>
           </div>
 
-          {matchingSkills.length > 0 ? (
-            <div className="skills-section matching-skills">
-              <h3>Matching Skills</h3>
-              <div className="skills-list">
-                {matchingSkills.map((skill) => (
-                  <span className="skill-tag" key={skill}>
-                    {skill}
-                  </span>
+          <div className="skills-section">
+            <h4>Skills Found in Resume ({skills.length})</h4>
+            {skills.length > 0 ? (
+              <ul>
+                {skills.map((skill) => (
+                  <li key={skill}>{skill}</li>
                 ))}
-              </div>
-            </div>
-          ) : (
-            <p className="empty-state">
-              No matching skills found for this job description.
-            </p>
-          )}
+              </ul>
+            ) : (
+              <p>No recognized skills were found.</p>
+            )}
+          </div>
 
-          {missingSkills.length > 0 ? (
-            <div className="skills-section missing-skills">
-              <h3>Missing Skills</h3>
-              <div className="skills-list">
-                {missingSkills.map((skill) => (
-                  <span className="skill-tag" key={skill}>
-                    {skill}
-                  </span>
+          <div className="skills-section">
+            <h4>Required Skills ({requiredSkills.length})</h4>
+            {requiredSkills.length > 0 ? (
+              <ul>
+                {requiredSkills.map((skill) => (
+                  <li key={skill}>{skill}</li>
                 ))}
-              </div>
-            </div>
-          ) : (
-            <p className="empty-state">
-              No missing skills found. Your detected skills cover all required
-              skills!
-            </p>
-          )}
+              </ul>
+            ) : (
+              <p>No recognized skills were found in the job description.</p>
+            )}
+          </div>
+
+          <div className="skills-section">
+            <h4>Matching Skills ({matchingSkills.length})</h4>
+            {matchingSkills.length > 0 ? (
+              <ul>
+                {matchingSkills.map((skill) => (
+                  <li key={skill}>{skill}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No matching skills found.</p>
+            )}
+          </div>
+
+          <div className="skills-section">
+            <h4>Missing Skills ({missingSkills.length})</h4>
+            {missingSkills.length > 0 ? (
+              <ul>
+                {missingSkills.map((skill) => (
+                  <li key={skill}>{skill}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No missing required skills were found.</p>
+            )}
+          </div>
+
+          <details>
+            <summary>View Extracted Resume Text</summary>
+            <pre>{extractedText}</pre>
+          </details>
         </div>
       )}
     </div>

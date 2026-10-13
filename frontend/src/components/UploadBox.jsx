@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 function UploadBox() {
@@ -115,6 +114,22 @@ function UploadBox() {
     }
   };
 
+  const renderSkillTags = (skillList, emptyMessage) => {
+    if (skillList.length === 0) {
+      return <p>{emptyMessage}</p>;
+    }
+
+    return (
+      <div className="skills-list">
+        {skillList.map((skill) => (
+          <span className="skill-tag" key={skill}>
+            {skill}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="upload-box">
       <form onSubmit={handleSubmit}>
@@ -164,53 +179,27 @@ function UploadBox() {
 
           <div className="skills-section">
             <h4>Skills Found in Resume ({skills.length})</h4>
-            {skills.length > 0 ? (
-              <ul>
-                {skills.map((skill) => (
-                  <li key={skill}>{skill}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No recognized skills were found.</p>
-            )}
+            {renderSkillTags(skills, "No recognized skills were found.")}
           </div>
 
           <div className="skills-section">
             <h4>Required Skills ({requiredSkills.length})</h4>
-            {requiredSkills.length > 0 ? (
-              <ul>
-                {requiredSkills.map((skill) => (
-                  <li key={skill}>{skill}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No recognized skills were found in the job description.</p>
+            {renderSkillTags(
+              requiredSkills,
+              "No recognized skills were found in the job description."
             )}
           </div>
 
-          <div className="skills-section">
+          <div className="skills-section matching-skills">
             <h4>Matching Skills ({matchingSkills.length})</h4>
-            {matchingSkills.length > 0 ? (
-              <ul>
-                {matchingSkills.map((skill) => (
-                  <li key={skill}>{skill}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No matching skills found.</p>
-            )}
+            {renderSkillTags(matchingSkills, "No matching skills found.")}
           </div>
 
-          <div className="skills-section">
+          <div className="skills-section missing-skills">
             <h4>Missing Skills ({missingSkills.length})</h4>
-            {missingSkills.length > 0 ? (
-              <ul>
-                {missingSkills.map((skill) => (
-                  <li key={skill}>{skill}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No missing required skills were found.</p>
+            {renderSkillTags(
+              missingSkills,
+              "No missing required skills were found."
             )}
           </div>
 

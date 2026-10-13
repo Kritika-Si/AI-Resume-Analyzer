@@ -43,7 +43,15 @@ useEffect(() => {
             discover missing skills, and improve your placement readiness.
           </p>
 
-          <button>Get Started</button>
+          <button
+            onClick={() => {
+              document
+                .querySelector(".upload-box")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+        >
+          Get Started
+        </button>
 
           <p className="backend-status">
             Backend Status: {backendStatus}

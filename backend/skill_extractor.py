@@ -35,7 +35,8 @@ def extract_skills(text):
                     r"plan to learn|planning to learn|"
                     r"hope to learn|interested in learning|"
                     r"learning|no longer use|don't use|do not use|"
-                    r"not using|stopped using)\s*$",
+                    r"not using|stopped using|not familiar with|"
+                    r"unfamiliar with)\s*$",
                     preceding_text,
                     re.IGNORECASE,
                 )

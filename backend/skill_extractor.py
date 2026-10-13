@@ -34,7 +34,8 @@ def extract_skills(text):
                     r"(?:want to learn|would like to learn|"
                     r"plan to learn|planning to learn|"
                     r"hope to learn|interested in learning|"
-                    r"learning)\s*$",
+                    r"learning|no longer use|don't use|do not use|"
+                    r"not using|stopped using)\s*$",
                     preceding_text,
                     re.IGNORECASE,
                 )

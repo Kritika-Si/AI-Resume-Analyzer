@@ -7,6 +7,12 @@ def normalize_skill(skill):
         "nlp": "natural language processing",
         "scikit learn": "scikit-learn",
         "scikitlearn": "scikit-learn",
+        "react.js": "react",
+        "reactjs": "react",
+        "rest apis": "rest api",
+        "amazon web services": "aws",
+        "google cloud platform": "google cloud",
+        "gcp": "google cloud",
     }
 
     return aliases.get(normalized, normalized)

@@ -173,9 +173,25 @@ function UploadBox() {
           <h3>Resume Analysis Results</h3>
 
           <div className="match-score">
-            <h4>Job Match Score</h4>
-            <p>{matchScore}%</p>
-          </div>
+  <h4>Job Match Score</h4>
+  <p>{matchScore}%</p>
+
+  <div
+    className="score-progress"
+    role="progressbar"
+    aria-label="Job match score"
+    aria-valuenow={Math.min(100, Math.max(0, Number(matchScore) || 0))}
+    aria-valuemin={0}
+    aria-valuemax={100}
+  >
+    <div
+      className="score-progress-fill"
+      style={{
+        width: `${Math.min(100, Math.max(0, Number(matchScore) || 0))}%`,
+      }}
+    />
+  </div>
+</div>
 
           <div className="skills-section">
             <h4>Skills Found in Resume ({skills.length})</h4>

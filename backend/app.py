@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from resume_parser import extract_text_from_pdf, extract_text_from_docx
 from text_cleaner import clean_resume_text, clean_job_description
 from skill_extractor import extract_skills
-from matcher import calculate_skill_match
+from matcher import calculate_skill_match, normalize_skill
 
 
 app = Flask(__name__)
@@ -37,6 +37,18 @@ def allowed_file(filename):
         "." in filename
         and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
     )
+
+
+def deduplicate_skills(skills):
+    """Keep one display name for each normalized skill."""
+    unique_skills = {}
+
+    for skill in skills:
+        if isinstance(skill, str) and skill.strip():
+            normalized = normalize_skill(skill)
+            unique_skills.setdefault(normalized, skill.strip())
+
+    return sorted(unique_skills.values(), key=str.lower)
 
 
 @app.route("/")
@@ -78,7 +90,6 @@ def upload_resume():
 
     filename = secure_filename(file.filename)
     file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-
     file.save(file_path)
 
     return jsonify({
@@ -117,7 +128,10 @@ def extract_resume():
     if file_extension not in SUPPORTED_EXTRACTION_EXTENSIONS:
         return jsonify({
             "status": "error",
-            "message": "DOC files are not supported for text extraction yet. Please upload a PDF or DOCX file."
+            "message": (
+                "DOC files are not supported for text extraction yet. "
+                "Please upload a PDF or DOCX file."
+            )
         }), 400
 
     job_description = request.form.get("job_description", "").strip()
@@ -131,7 +145,6 @@ def extract_resume():
 
     name, extension = os.path.splitext(filename)
     filename = f"{name}_{os.urandom(4).hex()}{extension}"
-
     file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     file.save(file_path)
 
@@ -152,7 +165,10 @@ def extract_resume():
 
         return jsonify({
             "status": "error",
-            "message": "Unable to read this file. Please upload a valid PDF or DOCX resume."
+            "message": (
+                "Unable to read this file. Please upload a valid PDF "
+                "or DOCX resume."
+            )
         }), 400
 
     extracted_text = clean_resume_text(extracted_text)
@@ -163,11 +179,14 @@ def extract_resume():
 
         return jsonify({
             "status": "error",
-            "message": "No text could be extracted from the resume. If this is a scanned PDF, text extraction may require OCR."
+            "message": (
+                "No text could be extracted from the resume. If this is "
+                "a scanned PDF, text extraction may require OCR."
+            )
         }), 400
 
-    detected_skills = extract_skills(extracted_text)
-    required_skills = extract_skills(job_description)
+    detected_skills = deduplicate_skills(extract_skills(extracted_text))
+    required_skills = deduplicate_skills(extract_skills(job_description))
 
     match_result = calculate_skill_match(
         detected_skills,

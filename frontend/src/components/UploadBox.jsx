@@ -80,12 +80,13 @@ function UploadBox() {
       formData.append("job_description", jobDescription.trim());
 
       const response = await fetch(
-        "http://127.0.0.1:5000/api/extract-resume",
+        "https://ai-resume-analyzer-egsc.onrender.com/api/extract-resume",
         {
           method: "POST",
           body: formData,
         }
       );
+
 
       const data = await response.json();
 

@@ -6,7 +6,7 @@ function App() {
   const [backendStatus, setBackendStatus] = useState("Checking backend...");
 
 useEffect(() => {
-  fetch("http://127.0.0.1:5000/api/health")
+  fetch("https://ai-resume-analyzer-egsc.onrender.com/api/health")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Backend request failed");

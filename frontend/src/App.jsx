@@ -53,9 +53,7 @@ useEffect(() => {
           Get Started
         </button>
 
-          <p className="backend-status">
-            Backend Status: {backendStatus}
-          </p>
+
         </div>
       </section>
 

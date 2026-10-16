@@ -135,15 +135,35 @@ function UploadBox() {
     <div className="upload-box">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="resume">Upload Resume</label>
-          <input
-            id="resume"
-            type="file"
-            accept=".pdf,.docx"
-            onChange={handleResumeChange}
-            disabled={isUploading}
-          />
-          <p>Supported formats: PDF and DOCX. Maximum size: 5 MB.</p>
+          
+<label htmlFor="resume">Upload Resume</label>
+
+
+<div className="custom-file-picker">
+  <input
+    id="resume"
+    className="resume-file-input"
+    type="file"
+    accept=".pdf,.docx"
+    onChange={handleResumeChange}
+    disabled={isUploading}
+  />
+
+  <label
+    htmlFor="resume"
+    className={`choose-resume-button ${isUploading ? "disabled" : ""}`}
+  >
+    Choose Resume
+  </label>
+
+  <span className="selected-file-name" title={resume?.name || ""}>
+    {resume ? resume.name : "No resume selected"}
+  </span>
+</div>
+
+
+<p>Supported formats: PDF and DOCX. Maximum size: 5 MB.</p>
+
         </div>
 
         <div className="form-group">

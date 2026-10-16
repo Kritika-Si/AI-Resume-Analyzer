@@ -53,6 +53,16 @@ def test_empty_required_skills():
     assert result["missing_skills"] == []
 
 
+def test_realistic_job_match():
+    result = calculate_skill_match(
+        ["Python", "ML", "ReactJS", "Postgres"],
+        ["Python", "Machine Learning", "React", "PostgreSQL", "AWS"],
+    )
+
+    assert result["match_percentage"] == 80
+    assert len(result["matching_skills"]) == 4
+    assert result["missing_skills"] == ["AWS"]
+
 print("Running skill-matcher tests...")
 
 test_skill_aliases()
@@ -60,5 +70,6 @@ test_perfect_match()
 test_partial_match()
 test_duplicate_required_skills()
 test_empty_required_skills()
+test_realistic_job_match()
 
-print("All 5 skill-matcher tests passed!")
+print("All 6 skill-matcher tests passed!")

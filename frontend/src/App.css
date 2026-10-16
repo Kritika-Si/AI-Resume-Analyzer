@@ -1166,3 +1166,111 @@ select:focus {
 .analysis-results .missing-skills h4 {
   color: #fda4af !important;
 }
+
+/* Custom Midnight Emerald file picker */
+
+.choose-resume-button:hover {
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
+  transform: translateY(-1px);
+}
+
+.choose-resume-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* Stack neatly on narrow screens */
+@media (max-width: 480px) {
+  .custom-file-picker {
+    gap: 10px;
+  }
+
+  .choose-resume-button {
+    padding: 10px 12px;
+  }
+}
+.custom-file-picker:focus-within {
+  outline: 2px solid #34d399;
+  outline-offset: 3px;
+}
+
+/* Custom resume picker - final fix */
+.custom-file-picker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 10px;
+  background: #101820;
+  border: 1px solid rgba(16, 185, 129, 0.55);
+  border-radius: 12px;
+}
+
+/* Custom visible button */
+.custom-file-picker .choose-resume-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 12px 16px;
+  margin: 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #059669, #34d399);
+  color: #06251b !important;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.custom-file-picker .choose-resume-button:hover {
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
+}
+
+/* Selected filename */
+.custom-file-picker .selected-file-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: #a7f3d0 !important;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Hide the native browser file picker */
+.upload-box .custom-file-picker input#resume.resume-file-input {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+}
+.upload-box .custom-file-picker label.choose-resume-button {
+  display: inline-flex !important;
+  cursor: pointer !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Keyboard focus indicator */
+.custom-file-picker:focus-within {
+  outline: 2px solid #34d399;
+  outline-offset: 3px;
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  .custom-file-picker {
+    gap: 10px;
+  }
+
+  .custom-file-picker .choose-resume-button {
+    padding: 10px 12px;
+  }
+}

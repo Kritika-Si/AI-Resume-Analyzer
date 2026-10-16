@@ -596,3 +596,573 @@ html {
     justify-content: space-between;
   }
 }
+
+/* ========================================
+   MIDNIGHT EMERALD THEME
+   Bold gradients + glowing accents
+   ======================================== */
+
+:root {
+  --midnight-bg: #101820;
+  --midnight-surface: #172a2b;
+  --emerald: #10b981;
+  --emerald-bright: #34d399;
+  --mint: #a7f3d0;
+  --main-text: #f1f5f9;
+  --muted-text: #b8c7c9;
+  --emerald-border: rgba(16, 185, 129, 0.28);
+  --emerald-glow: 0 0 24px rgba(16, 185, 129, 0.2);
+}
+
+/* Main page */
+body {
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(16, 185, 129, 0.12),
+      transparent 32%
+    ),
+    linear-gradient(135deg, #101820, #111f24 55%, #101820);
+  color: var(--main-text);
+}
+
+/* Main application container */
+#root {
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* Navigation */
+.navbar {
+  background: rgba(16, 24, 32, 0.9);
+  border-bottom: 1px solid var(--emerald-border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(14px);
+}
+
+.brand {
+  color: var(--mint);
+}
+
+.nav-links a {
+  color: var(--muted-text);
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.nav-links a:hover {
+  color: var(--emerald-bright);
+  text-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+}
+
+/* Hero section */
+.hero {
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(16, 185, 129, 0.2),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #101820, #172a2b 60%, #101820);
+  color: var(--main-text);
+}
+
+.hero h1,
+.hero h2 {
+  color: var(--main-text);
+}
+
+.hero p {
+  color: var(--muted-text);
+}
+
+/* Buttons */
+button,
+.hero button,
+.navbar button {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.hero button,
+.analyzer-section button,
+button[type="submit"] {
+  background: linear-gradient(135deg, #059669, #10b981, #34d399);
+  color: #06251b;
+  border: 1px solid rgba(167, 243, 208, 0.45);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.2);
+  font-weight: 700;
+}
+
+.hero button:hover,
+.analyzer-section button:hover,
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 12px rgba(16, 185, 129, 0.45),
+    0 0 30px rgba(16, 185, 129, 0.2);
+  filter: brightness(1.08);
+}
+
+/* Features, analyzer and About sections */
+.features-section,
+.analyzer-section,
+.about-section {
+  background: transparent;
+  color: var(--main-text);
+}
+
+.section-heading h2,
+.about-content h2 {
+  color: var(--mint);
+}
+
+.section-heading p,
+.about-content p {
+  color: var(--muted-text);
+}
+
+/* Feature cards */
+.feature-card {
+  background: linear-gradient(
+    145deg,
+    rgba(23, 42, 43, 0.98),
+    rgba(18, 34, 37, 0.98)
+  );
+  color: var(--main-text);
+  border: 1px solid var(--emerald-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(52, 211, 153, 0.7);
+  box-shadow: var(--emerald-glow);
+}
+
+.feature-card h3 {
+  color: var(--mint);
+}
+
+.feature-card p {
+  color: var(--muted-text);
+}
+
+/* Form controls and text areas */
+input,
+textarea,
+select {
+  background: #101f24;
+  color: var(--main-text);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 10px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #91a5a5;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--emerald-bright);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.13);
+}
+
+/* Uploaded files, results and status panels */
+.upload-box,
+.result-card,
+.results-card,
+.analysis-result {
+  background: var(--midnight-surface);
+  color: var(--main-text);
+  border: 1px solid var(--emerald-border);
+  border-radius: 14px;
+}
+
+.upload-box:hover {
+  border-color: var(--emerald-bright);
+  box-shadow: var(--emerald-glow);
+}
+
+/* Footer */
+.site-footer {
+  background: linear-gradient(135deg, #0b1218, #142625);
+  color: var(--muted-text);
+  border-top: 1px solid var(--emerald-border);
+}
+
+.site-footer a {
+  color: var(--mint);
+}
+
+.site-footer a:hover {
+  color: var(--emerald-bright);
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+   MIDNIGHT EMERALD - UPLOAD FORM FIX
+   ======================================== */
+
+/* Upload panel */
+.upload-box {
+  background: linear-gradient(
+    145deg,
+    #172a2b 0%,
+    #142526 55%,
+    #10201f 100%
+  ) !important;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow:
+    0 0 25px rgba(16, 185, 129, 0.08),
+    inset 0 0 20px rgba(16, 185, 129, 0.025);
+}
+
+/* Make form labels readable */
+.analyzer-section label,
+.upload-box label {
+  color: #a7f3d0 !important;
+  font-weight: 600;
+}
+
+/* File upload input */
+.upload-box input[type="file"],
+.analyzer-section input[type="file"] {
+  background: #101820 !important;
+  color: #d1fae5 !important;
+  border: 1px solid #10b981 !important;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Style the Choose File button */
+.upload-box input[type="file"]::file-selector-button,
+.analyzer-section input[type="file"]::file-selector-button {
+  background: linear-gradient(135deg, #059669, #10b981) !important;
+  color: #06251b !important;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-right: 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* Job description field */
+.upload-box textarea,
+.analyzer-section textarea,
+.upload-box input:not([type="file"]),
+.analyzer-section input:not([type="file"]),
+.upload-box select,
+.analyzer-section select {
+  background: #101820 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(16, 185, 129, 0.45) !important;
+  border-radius: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/* Placeholder text */
+.upload-box textarea::placeholder,
+.analyzer-section textarea::placeholder,
+.upload-box input::placeholder,
+.analyzer-section input::placeholder {
+  color: #9bb5b1 !important;
+  opacity: 1;
+}
+
+/* Emerald focus glow */
+.upload-box textarea:focus,
+.analyzer-section textarea:focus,
+.upload-box input:focus,
+.analyzer-section input:focus {
+  outline: none;
+  border-color: #34d399 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+/* Analyze Resume button */
+.upload-box button,
+.analyzer-section button,
+.upload-box button[type="submit"],
+.analyzer-section button[type="submit"] {
+  background: linear-gradient(
+    110deg,
+    #047857,
+    #10b981 55%,
+    #34d399
+  ) !important;
+  color: #06251b !important;
+  border: 1px solid rgba(167, 243, 208, 0.45) !important;
+  border-radius: 10px;
+  font-weight: 700;
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.22);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.upload-box button:hover,
+.analyzer-section button:hover {
+  background: linear-gradient(
+    110deg,
+    #059669,
+    #34d399
+  ) !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 14px rgba(16, 185, 129, 0.4),
+    0 0 28px rgba(16, 185, 129, 0.18);
+}
+
+/* Upload help text and messages */
+.upload-box p,
+.analyzer-section .help-text {
+  color: #a9c1bd;
+}
+
+/* Text selection */
+.upload-box textarea::selection,
+.analyzer-section textarea::selection {
+  background: #10b981;
+  color: #101820;
+}
+
+/* ==========================================
+   MIDNIGHT EMERALD - ANALYSIS RESULTS
+   ========================================== */
+
+/* Results heading */
+.analysis-results h2,
+.analysis-results h3,
+.analysis-results .skills-section h3 {
+  color: #a7f3d0 !important;
+}
+
+/* All result cards become dark */
+.analysis-results .match-score,
+.analysis-results .skills-section,
+.analysis-results details,
+.analysis-results .extracted-text {
+  background: linear-gradient(145deg, #172a2b, #111f23) !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  border-radius: 14px;
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.07);
+}
+
+/* Match score title and percentage */
+.analysis-results .match-score h3,
+.analysis-results .match-score h4,
+.analysis-results .match-score p {
+  color: #a7f3d0 !important;
+}
+
+.analysis-results .match-score {
+  text-align: center;
+}
+
+.analysis-results .score-progress {
+  background: #293a3d !important;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.analysis-results .score-progress-fill {
+  background: linear-gradient(90deg, #059669, #10b981, #6ee7b7) !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+  border-radius: 999px;
+}
+
+/* Skill section headings and skill chips */
+.analysis-results .skills-section h3 {
+  color: #a7f3d0 !important;
+}
+
+.analysis-results .skill-tag,
+.analysis-results .skills-list .skill-tag {
+  background: #203638 !important;
+  color: #d1fae5 !important;
+  border: 1px solid rgba(52, 211, 153, 0.45) !important;
+  border-radius: 999px;
+}
+
+/* Matching skills: emerald accents, dark background */
+.analysis-results .matching-skills {
+  background: linear-gradient(135deg, #102c25, #15352d) !important;
+  border-color: rgba(52, 211, 153, 0.55) !important;
+}
+
+.analysis-results .matching-skills h3 {
+  color: #6ee7b7 !important;
+}
+
+.analysis-results .matching-skills .skill-tag {
+  background: #164e3b !important;
+  color: #d1fae5 !important;
+  border-color: #34d399 !important;
+}
+
+/* Missing skills: muted burgundy, readable coral */
+.analysis-results .missing-skills {
+  background: linear-gradient(135deg, #301b24, #261820) !important;
+  border-color: rgba(251, 113, 133, 0.45) !important;
+}
+
+.analysis-results .missing-skills h3 {
+  color: #fda4af !important;
+}
+
+.analysis-results .missing-skills .skill-tag {
+  background: #49232d !important;
+  color: #fecdd3 !important;
+  border-color: #fb7185 !important;
+}
+
+/* Success and error messages */
+.analysis-results .success,
+.analysis-results .success-message,
+.upload-box .success,
+.upload-box .success-message {
+  background: #12372b !important;
+  color: #a7f3d0 !important;
+  border: 1px solid #10b981 !important;
+}
+
+.analysis-results .error,
+.analysis-results .error-message,
+.upload-box .error,
+.upload-box .error-message {
+  background: #3b1d25 !important;
+  color: #fecdd3 !important;
+  border: 1px solid #fb7185 !important;
+}
+
+/* Expandable extracted resume text */
+.analysis-results details {
+  padding: 14px;
+}
+
+.analysis-results details summary {
+  color: #a7f3d0 !important;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.analysis-results details pre,
+.analysis-results details p,
+.analysis-results details div {
+  color: #e2e8f0 !important;
+}
+
+/* Keep all result text readable */
+.analysis-results p,
+.analysis-results span,
+.analysis-results li {
+  color: #dbe7e7;
+}
+
+.analysis-results strong {
+  color: #a7f3d0 !important;
+}
+
+/* ==========================================
+   FINAL TEXT VISIBILITY FIX
+   ========================================== */
+
+/* Resume extraction success message */
+.upload-box > .success-message,
+.upload-box > .success,
+.upload-box .success-message,
+.upload-box .success {
+  background: linear-gradient(135deg, #12372b, #164e3b) !important;
+  color: #a7f3d0 !important;
+  border: 1px solid #10b981 !important;
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+/* Results section headings */
+.analysis-results .skills-section > h3,
+.analysis-results .skills-section h3 {
+  color: #a7f3d0 !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 12px rgba(16, 185, 129, 0.12);
+}
+
+/* All Skills Found / Required Skills cards */
+.analysis-results .skills-section:not(.matching-skills):not(.missing-skills) {
+  background: linear-gradient(145deg, #172a2b, #111f23) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  color: #f1f5f9 !important;
+}
+
+/* Make result text readable */
+.analysis-results .skills-section p,
+.analysis-results .skills-section span {
+  color: #d1fae5;
+}
+
+/* Keep matching and missing skill headings distinct */
+.analysis-results .matching-skills h3 {
+  color: #6ee7b7 !important;
+}
+
+.analysis-results .missing-skills h3 {
+  color: #fda4af !important;
+}
+
+/* FIX: Resume analysis message */
+.upload-box form p[role="status"] {
+  background: linear-gradient(135deg, #12372b, #164e3b) !important;
+  color: #a7f3d0 !important;
+  border: 1px solid #10b981 !important;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 16px;
+}
+
+/* FIX: Analysis result headings */
+.analysis-results > h3,
+.analysis-results .skills-section h4,
+.analysis-results .match-score h4 {
+  color: #a7f3d0 !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+}
+
+/* Dark cards for all skills sections */
+.analysis-results .skills-section {
+  background: linear-gradient(145deg, #172a2b, #111f23) !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+}
+
+/* Matching skills */
+.analysis-results .matching-skills h4 {
+  color: #6ee7b7 !important;
+}
+
+/* Missing skills */
+.analysis-results .missing-skills h4 {
+  color: #fda4af !important;
+}

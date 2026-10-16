@@ -1,18 +1,30 @@
+
 def normalize_skill(skill):
-    """Normalize known aliases so equivalent skills are counted once."""
-    normalized = skill.strip().lower()
+    """Normalize skill names and common aliases."""
+    normalized = " ".join(skill.strip().lower().split())
 
     aliases = {
         "spark": "apache spark",
         "nlp": "natural language processing",
+        "ml": "machine learning",
         "scikit learn": "scikit-learn",
         "scikitlearn": "scikit-learn",
+        "sklearn": "scikit-learn",
         "react.js": "react",
         "reactjs": "react",
+        "node.js": "node.js",
+        "nodejs": "node.js",
         "rest apis": "rest api",
+        "restful api": "rest api",
+        "restful apis": "rest api",
         "amazon web services": "aws",
         "google cloud platform": "google cloud",
         "gcp": "google cloud",
+        "postgres": "postgresql",
+        "postgre sql": "postgresql",
+        "mongo": "mongodb",
+        "tf": "tensorflow",
+        "js": "javascript",
     }
 
     return aliases.get(normalized, normalized)
@@ -22,7 +34,7 @@ def calculate_skill_match(resume_skills, required_skills):
     """
     Compare resume skills with required job skills.
 
-    Equivalent skill aliases are counted only once.
+    Duplicate and equivalent required skills count only once.
     Returns matching skills, missing skills, and match percentage.
     """
     resume_set = {
@@ -62,8 +74,6 @@ def calculate_skill_match(resume_skills, required_skills):
         len(matching_skills) / len(unique_required) * 100,
         2,
     )
-
-    match_percentage = max(0, min(100, match_percentage))
 
     return {
         "matching_skills": matching_skills,

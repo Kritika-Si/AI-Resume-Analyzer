@@ -220,22 +220,166 @@ function App() {
           <UploadBox />
         </section>
 
-        <section className="about-section" id="about">
-          <div className="about-content">
-            <h2>About ResumeAI</h2>
+        
+<section className="about-section" id="about">
+  <div className="about-container">
+    <div className="about-hero">
+      <div className="about-copy">
+        <span className="about-badge">
+          ✨ About ResumeAI
+        </span>
 
-            <p>
-              ResumeAI is a resume analysis and job-matching project designed
-              to help job seekers identify relevant skills, understand gaps,
-              and prepare more effectively for job opportunities.
-            </p>
+        <h2>
+          About <span>ResumeAI</span>
+        </h2>
 
-            <p>
-              It combines resume text extraction, skill detection, and
-              job-description comparison in one simple interface.
-            </p>
+        <h3>
+          Smarter resume analysis. Better career preparation.
+        </h3>
+
+        <p className="about-description">
+          ResumeAI helps students, freshers, and job seekers
+          understand how their skills align with job requirements.
+          Upload a resume, explore detected skills, identify skill
+          gaps, and get useful insights to prepare more confidently
+          for your next opportunity.
+        </p>
+
+        <div className="about-highlights">
+          <div className="about-highlight">
+            <span className="highlight-icon">📄</span>
+            <div>
+              <strong>Resume Parsing</strong>
+              <p>Extract text and identify skills.</p>
+            </div>
           </div>
-        </section>
+
+          <div className="about-highlight">
+            <span className="highlight-icon">🎯</span>
+            <div>
+              <strong>Job Matching</strong>
+              <p>Compare skills with job needs.</p>
+            </div>
+          </div>
+
+          <div className="about-highlight">
+            <span className="highlight-icon">🚀</span>
+            <div>
+              <strong>Skill Gap Insights</strong>
+              <p>Discover skills to improve.</p>
+            </div>
+          </div>
+
+          <div className="about-highlight">
+            <span className="highlight-icon">🎓</span>
+            <div>
+              <strong>Career Readiness</strong>
+              <p>Prepare for your next role.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="about-visual">
+        <div className="visual-orbit orbit-one"></div>
+        <div className="visual-orbit orbit-two"></div>
+
+        <div className="resume-preview">
+          <div className="resume-top">
+            <div className="resume-avatar">👤</div>
+            <div>
+              <h3>YOUR RESUME</h3>
+              <span className="resume-line short"></span>
+            </div>
+          </div>
+
+          <div className="resume-label">Skills detected</div>
+
+          <div className="resume-skills">
+            <span>Python</span>
+            <span>React</span>
+            <span>SQL</span>
+            <span>CSS</span>
+          </div>
+
+          <div className="resume-label">Resume analysis</div>
+
+          <div className="resume-line"></div>
+          <div className="resume-line medium"></div>
+          <div className="resume-line short"></div>
+
+          <div className="resume-check">✓</div>
+        </div>
+
+        <div className="floating-score">
+          <span>🎯 Job Match Score</span>
+          <div className="score-circle">
+            <strong>AI</strong>
+          </div>
+          <small>Skill comparison</small>
+        </div>
+
+        <div className="floating-skills">
+          <h4>💡 Skill Insights</h4>
+          <p><span>✓</span> Matching skills</p>
+          <p><span>!</span> Skills to improve</p>
+          <p><span>↗</span> Career growth</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="tech-stack">
+      <div className="tech-intro">
+        <h3>Built with</h3>
+        <p>Technologies powering ResumeAI</p>
+      </div>
+
+      <div className="tech-badge">
+        <span>⚛️</span> React
+      </div>
+      <div className="tech-badge">
+        <span>⚡</span> Vite
+      </div>
+      <div className="tech-badge">
+        <span>🐍</span> Python
+      </div>
+      <div className="tech-badge">
+        <span>🌶️</span> Flask
+      </div>
+      <div className="tech-badge">
+        <span>🎨</span> CSS
+      </div>
+    </div>
+
+    <div className="mission-banner">
+      <div className="mission-icon">🚀</div>
+
+      <div className="mission-heading">
+        <span>OUR MISSION</span>
+        <h3>Empowering Your Next Step</h3>
+      </div>
+
+      <p>
+        Helping every job seeker understand their strengths,
+        discover opportunities to improve, and move forward
+        with greater confidence.
+      </p>
+
+      <button
+        className="mission-button"
+        onClick={() =>
+          document.getElementById("analyzer")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          })
+        }
+      >
+        Start Analyzing <span>→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
       </main>
 
       <footer className="site-footer">

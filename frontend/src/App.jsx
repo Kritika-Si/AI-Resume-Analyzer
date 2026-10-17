@@ -103,20 +103,244 @@ function App() {
       </nav>
 
       <main>
-        <section className="hero" id="home">
-          <div className="hero-text">
-            <h1>AI Resume Analyzer &amp; Job Match System</h1>
+        
+{/* PREMIUM HERO SECTION */}
+<section className="hero-premium" id="home">
+  <div className="hero-glow hero-glow-top" />
+  <div className="hero-glow hero-glow-bottom" />
 
-            <p>
-              Upload your resume, compare it with a job description,
-              discover missing skills, and improve your placement readiness.
-            </p>
+  <div className="hero-premium-container">
+    {/* LEFT CONTENT */}
+    <div className="hero-premium-content">
+      <div className="hero-eyebrow">
+        <span className="hero-eyebrow-dot" />
+        AI-POWERED CAREER INTELLIGENCE
+      </div>
 
-            <button onClick={() => scrollToSection("analyzer")}>
-              Get Started
-            </button>
+      <h1>
+        See how well
+        <br />
+        you match.
+        <br />
+        <span>Land interviews.</span>
+      </h1>
+
+      <p className="hero-premium-description">
+        Our AI analyzes your resume and the job description
+        to calculate your match score, highlight your strengths,
+        and show you exactly what to improve.
+      </p>
+
+      <div className="hero-benefits">
+        <div className="hero-benefit">
+          <div className="hero-benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="8" />
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 1v3M12 20v3M1 12h3M20 12h3" />
+            </svg>
           </div>
-        </section>
+          <div>
+            <h3>Smart Match Scoring</h3>
+            <p>Understand how your resume fits a job role.</p>
+          </div>
+        </div>
+
+        <div className="hero-benefit">
+          <div className="hero-benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M3 17l6-6 4 3 8-9" />
+              <path d="M15 5h6v6" />
+            </svg>
+          </div>
+          <div>
+            <h3>Actionable Insights</h3>
+            <p>Discover missing skills and ways to improve.</p>
+          </div>
+        </div>
+
+        <div className="hero-benefit">
+          <div className="hero-benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="5" y="3" width="14" height="18" rx="2" />
+              <path d="M9 8h6M9 12h6M9 16h4" />
+            </svg>
+          </div>
+          <div>
+            <h3>Tailored Resume Feedback</h3>
+            <p>Get insights based on your target job description.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="hero-actions">
+        <button
+          className="hero-primary-button"
+          onClick={() =>
+            document.getElementById("analyzer")?.scrollIntoView({
+              behavior: "smooth"
+            })
+          }
+        >
+          Analyze My Resume
+          <span aria-hidden="true"> →</span>
+        </button>
+
+        <button
+          className="hero-secondary-button"
+          onClick={() =>
+            document.getElementById("features")?.scrollIntoView({
+              behavior: "smooth"
+            })
+          }
+        >
+          Explore Features
+        </button>
+      </div>
+
+      <div className="hero-trust-note">
+        <span className="hero-trust-check">✓</span>
+        Resume insights tailored to your target role
+      </div>
+    </div>
+
+    {/* RIGHT DASHBOARD PREVIEW */}
+    <div className="hero-dashboard">
+      <div className="dashboard-header">
+        <div className="dashboard-heading">
+          <div className="dashboard-logo-icon">↗</div>
+          <div>
+            <h2>Job Match Analysis</h2>
+            <p>Resume insights dashboard</p>
+          </div>
+        </div>
+        <span className="dashboard-live-badge">
+          <span /> AI Preview
+        </span>
+      </div>
+
+      <div className="dashboard-main">
+        {/* MATCH SCORE */}
+        <div className="dashboard-score-panel">
+          <div className="dashboard-panel-title">
+            <span className="dashboard-mini-icon">◎</span>
+            Match Score
+          </div>
+
+          <div className="score-ring">
+            <svg viewBox="0 0 180 180" aria-label="Illustrative match score">
+              <circle
+                className="score-ring-track"
+                cx="90"
+                cy="90"
+                r="76"
+              />
+              <circle
+                className="score-ring-progress"
+                cx="90"
+                cy="90"
+                r="76"
+              />
+            </svg>
+
+            <div className="score-ring-label">
+              <strong>78<span>%</span></strong>
+              <small>Good Match</small>
+            </div>
+          </div>
+
+          <p className="score-description">
+            A sample match score showing how resume skills can
+            align with a target job.
+          </p>
+
+          <div className="score-insight-card">
+            <span className="score-insight-arrow">↗</span>
+            <div>
+              <strong>Improve your match</strong>
+              <p>Review missing skills below</p>
+            </div>
+          </div>
+        </div>
+
+        {/* SKILLS PANEL */}
+        <div className="dashboard-skills-panel">
+          <div className="skills-group">
+            <div className="skills-heading">
+              <div>
+                <span className="skills-status matched">✓</span>
+                <h3>Matching Skills</h3>
+              </div>
+              <span className="skills-count">Skills found</span>
+            </div>
+
+            <div className="skill-tags matched-tags">
+              {[
+                "Python",
+                "SQL",
+                "React",
+                "Flask",
+                "Data Analysis",
+                "JavaScript",
+                "Git",
+                "REST APIs"
+              ].map((skill) => (
+                <span className="skill-tag" key={skill}>
+                  {skill} <b>✓</b>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="dashboard-skills-divider" />
+
+          <div className="skills-group">
+            <div className="skills-heading">
+              <div>
+                <span className="skills-status missing">!</span>
+                <h3>Skills to Improve</h3>
+              </div>
+              <span className="skills-count missing-count">
+                Suggested
+              </span>
+            </div>
+
+            <div className="skill-tags missing-tags">
+              {[
+                "Machine Learning",
+                "Docker",
+                "Cloud Basics",
+                "Testing"
+              ].map((skill) => (
+                <span className="skill-tag" key={skill}>
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* DASHBOARD FOOTER */}
+      <div className="dashboard-recommendation">
+        <div className="recommendation-icon">✦</div>
+        <div className="recommendation-copy">
+          <strong>Your next improvement</strong>
+          <p>
+            Compare your resume against a job description to identify
+            relevant missing skills.
+          </p>
+        </div>
+        <span className="recommendation-arrow">↗</span>
+      </div>
+
+      <div className="dashboard-disclaimer">
+        Illustrative dashboard · Sample data
+      </div>
+    </div>
+  </div>
+</section>
+
 
         <section className="features-section" id="features">
           <div className="section-heading">
@@ -220,9 +444,8 @@ function App() {
           <UploadBox />
         </section>
 
-        
-<section className="about-section" id="about">
-  <div className="about-container">
+  <section className="about-section" id="about">
+   <div className="about-container">
     <div className="about-hero">
       <div className="about-copy">
         <span className="about-badge">

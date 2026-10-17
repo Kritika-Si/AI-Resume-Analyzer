@@ -1274,3 +1274,133 @@ select:focus {
     padding: 10px 12px;
   }
 }
+
+/* Clickable feature cards */
+.feature-card {
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: #34d399;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.12);
+}
+
+.feature-card:focus-visible {
+  outline: 2px solid #6ee7b7;
+  outline-offset: 4px;
+}
+
+.feature-learn-more {
+  display: inline-block;
+  margin-top: 12px;
+  color: #6ee7b7;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Popup background */
+.feature-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(3, 12, 15, 0.78);
+  backdrop-filter: blur(6px);
+}
+
+/* Popup card */
+.feature-modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 32px;
+  border: 1px solid #087f5b;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #142a29, #101b21);
+  color: #e6fff6;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  animation: featureModalAppear 0.2s ease-out;
+}
+
+.feature-modal-icon {
+  margin-bottom: 12px;
+  font-size: 36px;
+}
+
+.feature-modal h2 {
+  margin: 0 32px 14px 0;
+  color: #a7f3d0;
+}
+
+.feature-modal p {
+  color: #d1e7e4;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.feature-modal .feature-modal-benefit {
+  margin-top: 18px;
+  padding: 12px;
+  border-left: 3px solid #34d399;
+  border-radius: 4px;
+  background: rgba(16, 185, 129, 0.08);
+  color: #a7f3d0;
+}
+
+/* Close icon */
+.feature-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  color: #a7f3d0;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* Close button */
+.feature-modal-button {
+  margin-top: 14px;
+  padding: 11px 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #059669, #34d399);
+  color: #06251c;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.feature-modal-button:hover {
+  filter: brightness(1.08);
+}
+
+@keyframes featureModalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-modal {
+    padding: 24px;
+  }
+}

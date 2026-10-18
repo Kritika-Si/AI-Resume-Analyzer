@@ -2814,3 +2814,731 @@ select:focus {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* =========================================
+   PREMIUM RESUME ANALYZER
+   Midnight Emerald theme
+========================================= */
+
+.analyzer-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 76px 24px 90px;
+}
+
+.analyzer-section::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 120px;
+  left: 50%;
+  width: min(900px, 100%);
+  height: 650px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse,
+    rgba(16, 185, 129, 0.09),
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.analyzer-section .section-heading {
+  max-width: 760px;
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.analyzer-section .section-heading h2 {
+  margin-bottom: 14px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: -1.2px;
+  background: linear-gradient(110deg, #d1fae5, #6ee7b7, #a7f3d0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.analyzer-section .section-heading p {
+  max-width: 590px;
+  margin: 0 auto;
+  color: #b3c7c5;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* Main form card */
+
+.upload-box {
+  width: min(100%, 850px);
+  margin: 0 auto;
+  padding: clamp(22px, 4vw, 40px);
+  border: 1px solid rgba(52, 211, 153, 0.48);
+  border-radius: 24px;
+  background: linear-gradient(
+    145deg,
+    rgba(20, 42, 40, 0.96),
+    rgba(13, 27, 32, 0.98)
+  );
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.2),
+    0 0 40px rgba(16, 185, 129, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.upload-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.upload-box .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.upload-box .analyzer-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #d1fae5;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.step-number {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.11);
+  color: #6ee7b7;
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
+}
+
+/* Resume drag-and-drop area */
+
+.resume-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  padding: 28px 22px;
+  border: 1.5px dashed rgba(52, 211, 153, 0.5);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(16, 185, 129, 0.09),
+      transparent 65%
+    ),
+    rgba(8, 20, 25, 0.55);
+  text-align: center;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.resume-dropzone:hover,
+.resume-dropzone.dragging {
+  border-color: #6ee7b7;
+  background-color: rgba(16, 185, 129, 0.09);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.08);
+}
+
+.resume-dropzone.dragging {
+  transform: scale(1.01);
+}
+
+.resume-dropzone.has-file {
+  border-style: solid;
+  border-color: rgba(52, 211, 153, 0.65);
+}
+
+.resume-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.resume-file-input:focus-visible + .choose-resume-button {
+  outline: 2px solid #a7f3d0;
+  outline-offset: 4px;
+}
+
+.upload-icon {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  margin-bottom: 15px;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 18px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #6ee7b7;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.resume-dropzone h3 {
+  margin: 0;
+  color: #e4fff2;
+  font-size: 1.08rem;
+}
+
+.dropzone-description {
+  max-width: 440px;
+  margin: 10px 0 18px;
+  color: #a9c0bd;
+  font-size: 0.93rem;
+  line-height: 1.7;
+}
+
+.choose-resume-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 22px;
+  border: 1px solid rgba(110, 231, 183, 0.7);
+  border-radius: 11px;
+  background: rgba(16, 185, 129, 0.13);
+  color: #a7f3d0;
+  font-size: 0.94rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.choose-resume-button:hover {
+  transform: translateY(-2px);
+  background: #10b981;
+  color: #06281f;
+}
+
+.choose-resume-button.disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.selected-file-card {
+  display: flex;
+  width: min(100%, 480px);
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 12px 14px;
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  border-radius: 12px;
+  background: rgba(16, 185, 129, 0.07);
+  text-align: left;
+}
+
+.file-type-icon {
+  display: grid;
+  width: 43px;
+  height: 48px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(52, 211, 153, 0.14);
+  color: #6ee7b7;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.selected-file-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #e0fff0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.selected-file-name small {
+  display: block;
+  margin-top: 5px;
+  color: #9ab8af;
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.file-check {
+  color: #6ee7b7;
+  font-size: 1.2rem;
+}
+
+/* Hints and job description */
+
+.upload-box .field-hint {
+  margin: 0;
+  color: #9bb8b4;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.job-hint {
+  margin-top: -4px !important;
+}
+
+.upload-box .job-description-input {
+  display: block;
+  width: 100%;
+  min-height: 190px;
+  resize: vertical;
+  padding: 18px;
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  border-radius: 14px;
+  outline: none;
+  background: #0b171d;
+  color: #e5fff3;
+  font: inherit;
+  font-size: 0.97rem;
+  line-height: 1.75;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.upload-box .job-description-input::placeholder {
+  color: #789590;
+}
+
+.upload-box .job-description-input:focus {
+  border-color: #34d399;
+  background: #0d1b20;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+.upload-box .job-description-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.textarea-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  color: #8eaaa5;
+  font-size: 0.78rem;
+}
+
+/* Main analyze button */
+
+.upload-box .analyze-button {
+  display: flex;
+  width: 100%;
+  min-height: 58px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 15px 22px;
+  border: 1px solid rgba(167, 243, 208, 0.5);
+  border-radius: 13px;
+  background: linear-gradient(105deg, #059669, #10b981 58%, #34d399);
+  box-shadow: 0 9px 24px rgba(16, 185, 129, 0.16);
+  color: #05281e;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.upload-box .analyze-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 13px 30px rgba(16, 185, 129, 0.24);
+  filter: brightness(1.06);
+}
+
+.upload-box .analyze-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.upload-box .analyze-button:focus-visible {
+  outline: 2px solid #a7f3d0;
+  outline-offset: 4px;
+}
+
+.upload-box .analyze-button:disabled {
+  cursor: wait;
+  opacity: 0.78;
+}
+
+.button-arrow {
+  font-size: 1.25rem;
+}
+
+.analyzer-spinner {
+  width: 19px;
+  height: 19px;
+  border: 2px solid rgba(5, 40, 30, 0.3);
+  border-top-color: #05281e;
+  border-radius: 50%;
+  animation: analyzer-spin 0.7s linear infinite;
+}
+
+@keyframes analyzer-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Status messages */
+
+.upload-box .analyzer-message {
+  margin: -12px 0 0;
+  padding: 13px 15px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.upload-box .analyzer-message.success {
+  border-color: rgba(52, 211, 153, 0.27);
+  background: rgba(16, 185, 129, 0.09);
+  color: #a7f3d0;
+}
+
+.upload-box .analyzer-message.error {
+  border-color: rgba(248, 113, 113, 0.3);
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+}
+
+.upload-box .analyzer-message.loading {
+  border-color: rgba(52, 211, 153, 0.24);
+  background: rgba(16, 185, 129, 0.06);
+  color: #b7f7dd;
+}
+
+/* Analysis results */
+
+.upload-box .analysis-results {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-top: 36px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(52, 211, 153, 0.25);
+  animation: results-appear 0.45s ease both;
+}
+
+@keyframes results-appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.results-heading h3 {
+  margin: 7px 0;
+  color: #d1fae5;
+  font-size: 1.55rem;
+}
+
+.results-heading p {
+  margin: 0;
+  color: #a4bdb7;
+  line-height: 1.7;
+}
+
+.results-eyebrow {
+  color: #6ee7b7;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.upload-box .match-score {
+  padding: 24px;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(16, 185, 129, 0.12),
+      transparent 60%
+    ),
+    rgba(9, 24, 27, 0.7);
+}
+
+.score-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.score-header h4 {
+  margin: 7px 0 0;
+  color: #e0fff0;
+  font-size: 1.05rem;
+}
+
+.score-badge {
+  padding: 7px 10px;
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.08);
+  color: #a7f3d0;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.score-value {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 24px 0 16px;
+}
+
+.score-value > span {
+  color: #6ee7b7;
+  font-size: clamp(2.7rem, 7vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.1;
+}
+
+.score-value small {
+  color: #a5c2b8;
+  font-size: 0.9rem;
+}
+
+.upload-box .score-progress {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #203832;
+}
+
+.upload-box .score-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #059669, #34d399, #a7f3d0);
+  box-shadow: 0 0 14px rgba(52, 211, 153, 0.28);
+  transition: width 0.8s ease;
+}
+
+/* Skill cards */
+
+.skills-results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.upload-box .skills-section {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid rgba(132, 170, 157, 0.18);
+  border-radius: 15px;
+  background: rgba(9, 23, 27, 0.56);
+}
+
+.upload-box .skills-section h4 {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0 0 16px;
+  color: #d7f6e7;
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.skill-heading-dot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: #6ee7b7;
+}
+
+.required-dot {
+  background: #93c5fd;
+}
+
+.matching-dot {
+  background: #34d399;
+}
+
+.missing-dot {
+  background: #fbbf24;
+}
+
+.upload-box .skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.upload-box .skill-tag {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  padding: 7px 11px;
+  border: 1px solid rgba(52, 211, 153, 0.24);
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.08);
+  color: #b8f5d9;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.upload-box .matching-skills .skill-tag {
+  border-color: rgba(52, 211, 153, 0.3);
+  background: rgba(16, 185, 129, 0.13);
+  color: #a7f3d0;
+}
+
+.upload-box .missing-skills .skill-tag {
+  border-color: rgba(251, 191, 36, 0.25);
+  background: rgba(245, 158, 11, 0.07);
+  color: #fcd99a;
+}
+
+.upload-box .empty-skills {
+  margin: 0;
+  color: #91aaa3;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+/* Extracted resume text */
+
+.upload-box .extracted-text-details {
+  overflow: hidden;
+  border: 1px solid rgba(52, 211, 153, 0.23);
+  border-radius: 13px;
+  background: rgba(8, 20, 24, 0.55);
+}
+
+.upload-box .extracted-text-details summary {
+  padding: 16px 18px;
+  color: #a7f3d0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.upload-box .extracted-text-details summary:hover {
+  background: rgba(16, 185, 129, 0.06);
+}
+
+.upload-box .extracted-text-details pre {
+  max-height: 360px;
+  overflow: auto;
+  margin: 0;
+  padding: 18px;
+  border-top: 1px solid rgba(52, 211, 153, 0.15);
+  color: #c3d8cf;
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Responsive layout */
+
+@media (max-width: 640px) {
+  .analyzer-section {
+    padding: 54px 15px 65px;
+  }
+
+  .analyzer-section .section-heading {
+    margin-bottom: 28px;
+  }
+
+  .analyzer-section .section-heading h2 {
+    letter-spacing: -0.7px;
+  }
+
+  .upload-box {
+    padding: 20px 16px;
+    border-radius: 18px;
+  }
+
+  .upload-box form {
+    gap: 25px;
+  }
+
+  .resume-dropzone {
+    min-height: 225px;
+    padding: 23px 14px;
+  }
+
+  .upload-box .job-description-input {
+    min-height: 170px;
+    padding: 14px;
+  }
+
+  .upload-box .analyze-button {
+    min-height: 54px;
+    padding: 13px 12px;
+    font-size: 0.94rem;
+  }
+
+  .skills-results-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .upload-box .match-score {
+    padding: 18px;
+  }
+
+  .textarea-footer {
+    font-size: 0.73rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-dropzone,
+  .choose-resume-button,
+  .upload-box .analyze-button,
+  .upload-box .score-progress-fill {
+    transition: none;
+  }
+
+  .analyzer-spinner {
+    animation-duration: 1.8s;
+  }
+
+  .upload-box .analysis-results {
+    animation: none;
+  }
+}

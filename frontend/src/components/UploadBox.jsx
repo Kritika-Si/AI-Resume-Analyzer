@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 
 function UploadBox() {
   const fileInputRef = useRef(null);
+
   const [resume, setResume] = useState(null);
   const [jobDescription, setJobDescription] = useState("");
   const [message, setMessage] = useState("");
@@ -162,6 +163,8 @@ function UploadBox() {
     Math.max(0, Number(matchScore) || 0)
   );
 
+  const circleCircumference = 2 * Math.PI * 48;
+
   return (
     <div className="upload-box">
       <form onSubmit={handleSubmit}>
@@ -315,23 +318,54 @@ function UploadBox() {
               <span className="score-badge">AI Analysis</span>
             </div>
 
-            <div className="score-value">
-              <span>{safeScore.toFixed(0)}%</span>
-              <small>skills match</small>
-            </div>
-
-            <div
-              className="score-progress"
-              role="progressbar"
-              aria-label="Job match score"
-              aria-valuenow={safeScore}
-              aria-valuemin={0}
-              aria-valuemax={100}
-            >
+            {/* Circular Job Match Score */}
+            <div className="circular-score-container">
               <div
-                className="score-progress-fill"
-                style={{ width: `${safeScore}%` }}
-              />
+                className="circular-score"
+                role="progressbar"
+                aria-label="Job match score"
+                aria-valuenow={safeScore}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <svg
+                  className="circular-score-svg"
+                  viewBox="0 0 120 120"
+                  aria-hidden="true"
+                >
+                  <circle
+                    className="circular-score-track"
+                    cx="60"
+                    cy="60"
+                    r="48"
+                  />
+
+                  <circle
+                    className="circular-score-fill"
+                    cx="60"
+                    cy="60"
+                    r="48"
+                    style={{
+                      strokeDasharray: circleCircumference,
+                      strokeDashoffset:
+                        circleCircumference * (1 - safeScore / 100),
+                    }}
+                  />
+                </svg>
+
+                <div className="circular-score-content">
+                  <span>{safeScore.toFixed(0)}%</span>
+                  <small>MATCH</small>
+                </div>
+              </div>
+
+              <div className="circular-score-caption">
+                <strong>Resume Compatibility</strong>
+                <p>
+                  Your resume matches {safeScore.toFixed(0)}% of the target
+                  role.
+                </p>
+              </div>
             </div>
           </div>
 

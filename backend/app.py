@@ -1,4 +1,3 @@
-
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
@@ -8,7 +7,7 @@ from resume_parser import extract_text_from_pdf, extract_text_from_docx
 from text_cleaner import clean_resume_text, clean_job_description
 from skill_extractor import extract_skills
 from matcher import calculate_skill_match, normalize_skill
-
+from role_requirements import get_role_requirements
 
 app = Flask(__name__)
 CORS(app)
@@ -49,6 +48,64 @@ def deduplicate_skills(skills):
             unique_skills.setdefault(normalized, skill.strip())
 
     return sorted(unique_skills.values(), key=str.lower)
+
+
+def resolve_job_requirements(job_role, job_description):
+    """
+    Resolve either a short target role/keyword or a full job description.
+
+    Short inputs are mapped to known role requirements. Longer descriptions
+    use the existing skill extraction pipeline.
+    """
+    job_role = job_role.strip()
+    job_description = job_description.strip()
+
+    # The single frontend input may be sent through both form fields.
+    # Prefer role mapping when the description is short and recognizable.
+    short_input = (
+        job_description
+        if job_description
+        else job_role
+    )
+
+    is_short_input = (
+        bool(short_input)
+        and len(short_input) <= 120
+        and "\n" not in short_input
+    )
+
+    if is_short_input:
+        role_skills = get_role_requirements(short_input)
+
+        if role_skills:
+            return ", ".join(role_skills), role_skills
+
+        # If both fields are populated, also try the separate role field.
+        if job_role and job_role != short_input:
+            role_skills = get_role_requirements(job_role)
+
+            if role_skills:
+                return ", ".join(role_skills), role_skills
+
+        # Do not reject a short custom description automatically.
+        # It may contain skill names that extract_skills can recognize.
+        cleaned_description = clean_job_description(short_input)
+        return cleaned_description, extract_skills(cleaned_description)
+
+    # A longer input is treated as a full job description.
+    if job_description:
+        cleaned_description = clean_job_description(job_description)
+    elif job_role:
+        role_skills = get_role_requirements(job_role)
+
+        if not role_skills:
+            return None, None
+
+        return ", ".join(role_skills), role_skills
+    else:
+        return None, None
+
+    return cleaned_description, extract_skills(cleaned_description)
 
 
 @app.route("/")
@@ -134,15 +191,24 @@ def extract_resume():
             )
         }), 400
 
+    job_role = request.form.get("job_role", "").strip()
     job_description = request.form.get("job_description", "").strip()
-    job_description = clean_job_description(job_description)
 
-    if not job_description:
+    resolved_description, role_skills = resolve_job_requirements(
+        job_role,
+        job_description
+    )
+
+    if resolved_description is None:
         return jsonify({
             "status": "error",
-            "message": "Job description is required"
+            "message": (
+                "Please enter a target role, recognized keywords, "
+                "or a full job description."
+            )
         }), 400
 
+    # Store the uploaded resume using a unique filename.
     name, extension = os.path.splitext(filename)
     filename = f"{name}_{os.urandom(4).hex()}{extension}"
     file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
@@ -171,12 +237,14 @@ def extract_resume():
             )
         }), 400
 
-    extracted_text = clean_resume_text(extracted_text)
-
-    if not extracted_text:
+    finally:
+        # Uploaded copies are temporary; don't retain them unnecessarily.
         if os.path.exists(file_path):
             os.remove(file_path)
 
+    extracted_text = clean_resume_text(extracted_text)
+
+    if not extracted_text:
         return jsonify({
             "status": "error",
             "message": (
@@ -185,8 +253,18 @@ def extract_resume():
             )
         }), 400
 
-    detected_skills = deduplicate_skills(extract_skills(extracted_text))
-    required_skills = deduplicate_skills(extract_skills(job_description))
+    detected_skills = deduplicate_skills(
+        extract_skills(extracted_text)
+    )
+
+    # Use mapped requirements for recognized short roles.
+    # Otherwise extract skills from the cleaned full description.
+    if role_skills:
+        required_skills = deduplicate_skills(role_skills)
+    else:
+        required_skills = deduplicate_skills(
+            extract_skills(resolved_description)
+        )
 
     match_result = calculate_skill_match(
         detected_skills,
@@ -200,7 +278,7 @@ def extract_resume():
         "text": extracted_text,
         "preprocessed": True,
         "skills": detected_skills,
-        "job_description": job_description,
+        "job_description": resolved_description,
         "required_skills": required_skills,
         "matching_skills": match_result["matching_skills"],
         "missing_skills": match_result["missing_skills"],

@@ -1,11 +1,10 @@
-
 import { useRef, useState } from "react";
 
 function UploadBox() {
   const fileInputRef = useRef(null);
 
   const [resume, setResume] = useState(null);
-  const [jobDescription, setJobDescription] = useState("");
+  const [jobInput, setJobInput] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const [extractedText, setExtractedText] = useState("");
@@ -42,7 +41,10 @@ function UploadBox() {
       setResume(null);
       setMessage("Please select a PDF or DOCX file.");
       setMessageType("error");
-      if (fileInputRef.current) fileInputRef.current.value = "";
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       return;
     }
 
@@ -50,7 +52,10 @@ function UploadBox() {
       setResume(null);
       setMessage("File size must not exceed 5 MB.");
       setMessageType("error");
-      if (fileInputRef.current) fileInputRef.current.value = "";
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       return;
     }
 
@@ -73,8 +78,8 @@ function UploadBox() {
     if (file) selectResume(file);
   };
 
-  const handleJobDescriptionChange = (event) => {
-    setJobDescription(event.target.value);
+  const handleJobInputChange = (event) => {
+    setJobInput(event.target.value);
     setMessage("");
     setMessageType("");
     clearResults();
@@ -89,8 +94,10 @@ function UploadBox() {
       return;
     }
 
-    if (!jobDescription.trim()) {
-      setMessage("Please enter a job description.");
+    if (!jobInput.trim()) {
+      setMessage(
+        "Please enter a target job role, keywords, or a full job description."
+      );
       setMessageType("error");
       return;
     }
@@ -103,7 +110,11 @@ function UploadBox() {
     try {
       const formData = new FormData();
       formData.append("resume", resume);
-      formData.append("job_description", jobDescription.trim());
+
+      // Send the single input through both existing backend fields.
+      // The backend prioritizes job_description when it is provided.
+      formData.append("job_description", jobInput.trim());
+      formData.append("job_role", jobInput.trim());
 
       const response = await fetch(
         "https://ai-resume-analyzer-egsc.onrender.com/api/extract-resume",
@@ -127,13 +138,14 @@ function UploadBox() {
       setMatchingSkills(data.matching_skills || []);
       setMissingSkills(data.missing_skills || []);
       setMatchScore(data.match_score ?? data.match_percentage ?? 0);
+
       setMessage(data.message || "Resume analyzed successfully.");
       setMessageType("success");
       setHasResults(true);
     } catch (error) {
       setMessage(
         error instanceof TypeError
-          ? "Unable to connect to the backend. Please try again in a moment."
+          ? "Unable to connect to the local backend. Check that Flask is running."
           : error.message || "Something went wrong. Please try again."
       );
       setMessageType("error");
@@ -175,9 +187,9 @@ function UploadBox() {
           </label>
 
           <div
-            className={`resume-dropzone ${isDragging ? "dragging" : ""} ${
-              resume ? "has-file" : ""
-            }`}
+            className={`resume-dropzone ${
+              isDragging ? "dragging" : ""
+            } ${resume ? "has-file" : ""}`}
             onDragOver={(event) => {
               event.preventDefault();
               if (!isUploading) setIsDragging(true);
@@ -220,13 +232,19 @@ function UploadBox() {
 
             {resume && (
               <div className="selected-file-card">
-                <span className="file-type-icon">PDF</span>
+                <span className="file-type-icon">
+                  {resume.name.toLowerCase().endsWith(".pdf")
+                    ? "PDF"
+                    : "DOCX"}
+                </span>
+
                 <span className="selected-file-name" title={resume.name}>
                   {resume.name}
                   <small>
                     {(resume.size / 1024).toFixed(0)} KB · Ready
                   </small>
                 </span>
+
                 <span className="file-check" aria-label="File selected">
                   ✓
                 </span>
@@ -240,29 +258,32 @@ function UploadBox() {
         </div>
 
         <div className="form-group job-description-group">
-          <label className="analyzer-label" htmlFor="job-description">
+          <label className="analyzer-label" htmlFor="job-input">
             <span className="step-number">02</span>
-            Job description
+            Job Description or Target Role
           </label>
 
-          <p className="field-hint job-hint">
-            Include the role, responsibilities, required skills, and
-            qualifications for a more useful comparison.
+          <p className="field-hint">
+            Enter a short role or keyword, such as Web Development,
+            Python Developer, AI and Machine Learning, or RAG. You can
+            also paste the complete job description.
           </p>
 
           <textarea
-            id="job-description"
+            id="job-input"
             className="job-description-input"
-            value={jobDescription}
-            onChange={handleJobDescriptionChange}
-            placeholder="Paste the job description here..."
+            value={jobInput}
+            onChange={handleJobInputChange}
+            placeholder="Enter a target role or keywords, or paste the full job description..."
             rows={7}
             disabled={isUploading}
           />
 
           <div className="textarea-footer">
-            <span>Be specific for a better skills comparison.</span>
-            <span>{jobDescription.length} characters</span>
+            <span>
+              Short keywords and complete job descriptions are both supported.
+            </span>
+            <span>{jobInput.length} characters</span>
           </div>
         </div>
 
@@ -306,19 +327,23 @@ function UploadBox() {
           <div className="results-heading">
             <span className="results-eyebrow">YOUR ANALYSIS</span>
             <h3>Resume Analysis Results</h3>
-            <p>Here is how your resume aligns with the target role.</p>
+            <p>
+              Here is how your resume aligns with the target role.
+            </p>
           </div>
 
           <div className="match-score">
             <div className="score-header">
               <div>
-                <span className="results-eyebrow">JOB COMPATIBILITY</span>
+                <span className="results-eyebrow">
+                  JOB COMPATIBILITY
+                </span>
                 <h4>Job Match Score</h4>
               </div>
-              <span className="score-badge">AI Analysis</span>
+
+              <span className="score-badge">Skills Analysis</span>
             </div>
 
-            {/* Circular Job Match Score */}
             <div className="circular-score-container">
               <div
                 className="circular-score"
@@ -362,8 +387,8 @@ function UploadBox() {
               <div className="circular-score-caption">
                 <strong>Resume Compatibility</strong>
                 <p>
-                  Your resume matches {safeScore.toFixed(0)}% of the target
-                  role.
+                  Your resume matches {safeScore.toFixed(0)}% of the
+                  target role.
                 </p>
               </div>
             </div>
@@ -375,7 +400,10 @@ function UploadBox() {
                 <span className="skill-heading-dot found-dot" />
                 Skills Found in Resume ({skills.length})
               </h4>
-              {renderSkillTags(skills, "No recognized skills were found.")}
+              {renderSkillTags(
+                skills,
+                "No recognized skills were found."
+              )}
             </div>
 
             <div className="skills-section">
@@ -385,7 +413,7 @@ function UploadBox() {
               </h4>
               {renderSkillTags(
                 requiredSkills,
-                "No recognized skills were found in the job description."
+                "No recognized required skills were found."
               )}
             </div>
 
@@ -394,7 +422,10 @@ function UploadBox() {
                 <span className="skill-heading-dot matching-dot" />
                 Matching Skills ({matchingSkills.length})
               </h4>
-              {renderSkillTags(matchingSkills, "No matching skills found.")}
+              {renderSkillTags(
+                matchingSkills,
+                "No matching skills found."
+              )}
             </div>
 
             <div className="skills-section missing-skills">
